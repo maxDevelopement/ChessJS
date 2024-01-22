@@ -1,0 +1,18 @@
+body{
+    background-color: aqua;
+}
+
+#chessBoard{
+    display: flex;
+}
+
+.whiteCase{
+    height: 50px;
+    width: 50px;
+    background-color: white;
+}
+.blackCase{
+    height: 50px;
+    width: 50px;
+    background-color: black;
+}
