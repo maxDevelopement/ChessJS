@@ -6,12 +6,12 @@ body{
     display: flex;
 }
 
-.whiteCase{
+.white{
     height: 50px;
     width: 50px;
     background-color: white;
 }
-.blackCase{
+.black{
     height: 50px;
     width: 50px;
     background-color: black;
