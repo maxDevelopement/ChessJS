@@ -4,15 +4,24 @@ body{
 
 #chessBoard{
     display: flex;
+    flex-direction: column;
 }
-
+.line{
+    display: flex;
+}
 .white{
     height: 50px;
     width: 50px;
     background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .black{
     height: 50px;
     width: 50px;
     background-color: black;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
