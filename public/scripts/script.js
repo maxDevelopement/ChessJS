@@ -6,11 +6,10 @@ let User = {
 
 
 class Case{
-    constructor(xPosition, yPosition, grade = "none", caseColor = "none", pieceColor = "none", htmlElement = "none"){
+    constructor(xPosition, yPosition, grade = "none", pieceColor = "none", htmlElement = "none"){
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this._grade = grade;
-        this.caseColor = caseColor;
         this.pieceColor = pieceColor;
         this.htmlElement = htmlElement;
     } 
@@ -119,11 +118,11 @@ class Grade{
         }
     }
     ShowMove(){
-        console.log("showMove gradeb : ", this.name.name)
+        console.log("showMove gradeb : ", this.name)
         switch(this.name.name){
             case "king": {
                 console.log("king !")
-                let move = King.ShowMove();
+                let move = gradeKing.ShowMove();
                 move.forEach(div => {
                     console.log(div)
                     div.style.backgroundColor = "red";
@@ -137,10 +136,11 @@ class Grade{
 }
 
 class King extends Grade{
-    constructor(){
-        this.name = "king";
+    constructor(name){
+        this.name = name;
     }
     ShowMove(x, y){
+        console.log("showmove !")
         let possibleMoves = []; 
         if(chessBoardArray[x-1]){ // check 1 ligne devant
             if(DestionationColor !== User.color){
@@ -158,7 +158,9 @@ class King extends Grade{
                 }
             }
         }
-        return possibleMoves;
+        const moves = possibleMoves
+        console.log("moves : ", moves)
+        return moves;
     }
 }
 
