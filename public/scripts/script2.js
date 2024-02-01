@@ -1,10 +1,11 @@
-//import $ from 'jquery';
 let chessBoardArray = [[], [], [], [], [], [], [], []]; // les cases du plateau
 let piecesOnBoard = []; // objets chessPiece qui se trouve sur le plateau de jeau
-
+let possibleMoves = [];
+let player;
 class Player{
     constructor(username, color){
-        
+        this.username = username;
+        this.color = color;
     }
 }
 
@@ -36,11 +37,31 @@ class ChessPiece{
             }
         }
     }
+
+    doCaseExist(xPos, yPos){
+        if((xPos < 0 || xPos > 7) || (yPos < 0 || yPos > 7)){
+            return false;
+        }else{
+            return true;
+        }       
+    }
+    // cette fonction determine si le joueur peut déplacer sa pièce sur la case de destination proposée
+    // le joueur peut déplacer sa pièce uniquement si la case est vide ou a une pièce enemie
+    // les paramètres de la fonction sont : 
+    // 1) xDestination : coordonnée x de la case de destination
+    // 2) yDestination : coordonée y de la case de destination 
+    isCaseAvailable(xDestination, yDestination){
+        
+    }
 }
 class King extends ChessPiece{
     constructor(xPosition, yPosition, color, grade = "king", _img){
         super(xPosition, yPosition, color, grade, _img);
         this.grade = grade;
+    }
+    calculMove(){
+        possibleMoves = [];
+
     }
     
 }
@@ -125,20 +146,11 @@ function createCase(line, color){
     return oneCase;
 }
 
-/*
-// au click d'une case
-for(let x = 0; x < 7; x++){
-    for(let y = 0; y < 7; y++){
-        const chessCase = chessBoardArray[x][y];
-        chessCase.addEventListener('click', () => {
-
-        })
-    }
-}
-*/
 addEventListener("load", (event) => {
+    initiateUser("max", "black");
     startNewGame();
     updateGameImg();
+    clickCase();
 });
 
 // tout effacer et recommencer une partie 
@@ -214,4 +226,30 @@ function startNewGame(){
         whitePawn7,
         whitePawn8,
     );
+}
+
+function clickCase(){
+    // au click d'une case
+    for(let x = 0; x <= 7; x++){
+        for(let y = 0; y <= 7; y++){
+            let chessCase = chessBoardArray[x][y];
+            chessCase.addEventListener('click', () => {
+                console.log(x, y)
+                const selectedPiece = selectPiece(x, y);
+                if(selectedPiece){
+                    
+                }                
+            })
+        }
+    }
+}
+
+function initiateUser(username, color){
+    player = new Player(username, color);
+}
+function selectPiece(x, y){
+    const piece = piecesOnBoard.filter(piece => piece.xPosition === x && piece.yPosition === y);
+        if(piece[0]){
+            return piece[0];
+        }
 }
