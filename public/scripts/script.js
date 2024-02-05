@@ -1,212 +1,173 @@
-let User = {
-    username: undefined,
-    color: undefined,
-    takenPieces: []
-};
+//----------------------------------------------------------------------------
+// déclaration des variables
+//----------------------------------------------------------------------------
+let chessBoardArray = [[], [], [], [], [], [], [], []]; // les cases du plateau
+let piecesOnBoard = []; // objets chessPiece qui se trouve sur le plateau de jeau
+let possibleMoves = [];
+let player;
 
+//----------------------------------------------------------------------------
+// evenements
+//----------------------------------------------------------------------------
 
-class Case{
-    constructor(xPosition, yPosition, grade = "none", pieceColor = "none", htmlElement = "none"){
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-        this._grade = grade;
-        this.pieceColor = pieceColor;
-        this.htmlElement = htmlElement;
-    } 
-    get grade(){
-        return this._grade;
-    }
-    // changement automatique de l'image lors de déplacement de pièces
-    set grade(grade){ 
-        let newGrade = new Grade(grade);
-        this._grade = newGrade;
-        newGrade.updateImg();
-    }
-    createCase(line, color){
-        const oneCase = document.createElement("div");
-        line.appendChild(oneCase);
-        oneCase.className = color;
-        this.caseColor = color;
-        this.htmlElement = oneCase;
-        this.htmlElement.addEventListener('click', this.handleClick);
-    }
-    // affiche automatiquement l'image de la pièce selon son grade
-    handleClick= () => {
-        console.log("objet : ", this.htmlElement);
-        let div = this.htmlElement;
-        if(activClick === false){ 
-            console.log(this);
-            this.grade.ShowMove(this.xPosition, this.yPosition);
-            div.style.backgroundColor = "red";
-            activClick = true;
-        }else if(activClick === true){ // rajouter conditions pour checker si case clickée est dans les case des mouvements possible
-            this.CleanMovements();
-            activClick = false;
-        }
-    };
-    // remets toutes les cases du tableau de jeu dans leurs couleurs d'origine
-    CleanMovements(){
-        console.log("chessBoard : ", chessBoardArray);
-        chessBoardArray.forEach(line => {
-            for(let caseNbr = 0; caseNbr <= 7; caseNbr++){
-                console.log("case à cleaner : ",line[caseNbr]);
-                let div = line[caseNbr]; // elements html à modifier
-                div.htmlElement.style.backgroundColor = div.caseColor;
-            }
-        });
-    }
-}
-
-class Grade{
-    constructor(name){
-        this.name = name;
-    }
-    updateImg(color){ 
-        console.log("update img !");
-        let path = `./img/${color}`;
-        let div = this.htmlElement;
-        switch(this._grade){
-            case "king": {
-                console.log("grade : ", this._grade);
-                if(this.pieceColor === "black"){
-                    div.style.backgroundImage = `url(${path}/Black_King.png)`;
-                }else if(this.pieceColor === "white"){
-                    div.style .backgroundImage = `url(${path}/White_King.png)`;
-                }         
-                break;
-            }
-            case "queen": {
-                if(this.pieceColor === "black"){
-                    div.style.backgroundImage = `url(${path}/Black_Queen.png)`;
-                }else if(this.caseColor === "white"){
-                    div.style .backgroundImage = `url(${path}/White_Queen.png)`;
-                }         
-                break;
-            }
-            case "bishop": { // fou
-                if(this.pieceColor === "black"){
-                    div.style.backgroundImage = `url(${path}/Black_Bishop.png)`;
-                }else if(this.pieceColor === "white"){
-                    div.style .backgroundImage = `url(${path}/White_Bishop.png)`;
-                }         
-                break;
-            }
-            case "knight": { // cheval
-                if(this.pieceColor === "black"){
-                    div.style.backgroundImage = `url(${path}/Black_Knight.png)`;
-                }else if(this.pieceColor === "white"){
-                    div.style .backgroundImage = `url(${path}/White_Knight.png)`;
-                }         
-                break;
-            }
-            case "Rook": { // tour
-                if(this.pieceColor === "black"){
-                    div.style.backgroundImage = `url(${path}/Black_Rook.png)`;
-                }else if(this.pieceColor === "white"){
-                    div.style .backgroundImage = `url(${path}/White_Rook.png)`;
-                }         
-                break;
-            }
-            case "pawn": { // pion
-                if(this.pieceColor === "black"){
-                    div.style.backgroundImage = `url(${path}/Black_Pawn.png)`;
-                }else if(this.pieceColor === "white"){
-                    div.style .backgroundImage = `url(${path}/White_Pawn.png)`;
-                }         
-                break;
-            }
-        }
-    }
-    ShowMove(){
-        console.log("showMove gradeb : ", this.name)
-        switch(this.name.name){
-            case "king": {
-                console.log("king !")
-                let move = gradeKing.ShowMove();
-                move.forEach(div => {
-                    console.log(div)
-                    div.style.backgroundColor = "red";
-                })
-            }
-            case "queen": {
-
-            }
-        }
-    }    
-}
-
-class King extends Grade{
-    constructor(name){
-        this.name = name;
-    }
-    ShowMove(x, y){
-        console.log("showmove !")
-        let possibleMoves = []; 
-        if(chessBoardArray[x-1]){ // check 1 ligne devant
-            if(DestionationColor !== User.color){
-                if(chessBoardArray[x-1][y-1]){
-                    possibleMoves.push(chessBoardArray[x-1][y-1]);
-                    chessBoardArray[x-1][y-1].htmlElement.style.backgroundColor = "red";
-                }
-                if(chessBoardArray[x-1][y]){
-                    possibleMoves.push(chessBoardArray[x-1][y]);
-                    chessBoardArray[x-1][y].htmlElement.style.backgroundColor = "red";
-                }
-                if(chessBoardArray[x-1][y+1]){
-                    possibleMoves.push(chessBoardArray[x-1][y+1]);
-                    chessBoardArray[x-1][y+1].htmlElement.style.backgroundColor = "red";
-                }
-            }
-        }
-        const moves = possibleMoves
-        console.log("moves : ", moves)
-        return moves;
-    }
-}
-
-// instanciation des grades
-let gradeKing = new Grade("king");
-
-// variables
-let chessBoardArray = [[], [], [], [], [], [], [], [], ];
-let activClick = false;
-let chessBoard = document.getElementById("chessBoard");
-
-// au chargement de la page
 addEventListener("load", (event) => {
-    createPlayBoard();
+    initiateUser("max", "black");
+    startNewGame();
+    updateGameImg();
+    clickCase();
 });
+
+function clickCase(){
+    // au click d'une case
+    for(let x = 0; x <= 7; x++){
+        for(let y = 0; y <= 7; y++){
+            let chessCase = chessBoardArray[x][y];
+            chessCase.addEventListener('click', () => {
+                console.log(x, y)
+                const selectedPiece = selectPiece(x, y);
+                if(selectedPiece){
+                    
+                }                
+            })
+        }
+    }
+}
+
+//----------------------------------------------------------------------------
+// fonctions
+//----------------------------------------------------------------------------
+
+// mise a jour de l'affichage 
+function updateGameImg(){
+    console.log("array : ", chessBoardArray)
+    piecesOnBoard.forEach((piece) => {        
+        const coordX = piece.xPosition;
+        const coordY = piece.yPosition;
+        console.log("piece : ", piece, coordX, coordY)
+        const chessCase = chessBoardArray[coordX][coordY];
+        if(chessCase && piece.img){
+            chessCase.style.backgroundImage = `url('${piece.img}')`;
+            console.log(chessCase.style);
+        }
+    })
+}
 
 // creation du tableau de jeu vide
 function createPlayBoard(){
     for(let x = 0; x <= 7; x++){
         console.log("x")
-        let lineArray = `line${x}`;
         let line = document.createElement("div");
         chessBoard.appendChild(line);
         for(let y = 0; y <= 7; y++){
             console.log("y")
             line.className = "line";
-            let newCase = new Case(x, y);
+            let newCase;
             if(x % 2 === 0){
                 if(y % 2 !== 0){
-                    newCase.createCase(line, "black");
+                    newCase = createCase(line, "black");
                 }else{                                       
-                    newCase.createCase(line, "white");                   
+                    newCase = createCase(line, "white");                   
                 }
-                console.log(lineArray)
                 chessBoardArray[x].push(newCase);
             }else{
                 if(y % 2 === 0){                    
-                    newCase.createCase(line, "black");
+                    newCase = createCase(line, "black");
                 }else{                       
-                    newCase.createCase(line, "white");             
+                    newCase = createCase(line, "white");             
                 }
                 chessBoardArray[x].push(newCase);
             }          
         }
     }
-    chessBoardArray[7][7].pieceColor = "black";
-    chessBoardArray[7][7].grade = gradeKing;
+}
+function createCase(line, color){
+    const oneCase = document.createElement("div");
+    line.appendChild(oneCase);
+    oneCase.className = color;
+    return oneCase;
 }
 
+// tout effacer et recommencer une partie 
+function startNewGame(){
+    piecesOnBoard = [];
+    $('chessBoard').innerHTML = '';
+    createPlayBoard();
+    let blackKing = new King(0, 4, "black");
+    let blackQueen = new Queen(0, 3, "black");
+    let blackRook = new Rook(0, 0, "black");
+    let blackSecondRook = new Rook(0, 7, "black");
+    let blackBishop = new Bishop(0, 2, "black");
+    let blackSecondBishop = new Bishop(0, 5, "black");
+    let blackKnight = new Knight(0, 1, "black");
+    let blackSecondKnight = new Knight(0, 6, "black");
+    let blackPawn1 = new Pawn(1, 0, "black");
+    let blackPawn2 = new Pawn(1, 1, "black");
+    let blackPawn3 = new Pawn(1, 2, "black");
+    let blackPawn4 = new Pawn(1, 3, "black");
+    let blackPawn5 = new Pawn(1, 4, "black");
+    let blackPawn6 = new Pawn(1, 5, "black");
+    let blackPawn7 = new Pawn(1, 6, "black");
+    let blackPawn8 = new Pawn(1, 7, "black");
+
+    let whiteKing = new King(7, 4, "white");
+    let whiteQueen = new Queen(7, 3, "white");
+    let whiteRook = new Rook(7, 0, "white");
+    let whiteSecondRook = new Rook(7, 7, "white");
+    let whiteBishop = new Bishop(7, 2, "white");
+    let whiteSecondBishop = new Bishop(7, 5, "white");
+    let whiteKnight = new Knight(7, 1, "white");
+    let whiteSecondKnight = new Knight(7, 6, "white");
+    let whitePawn1 = new Pawn(6, 0, "white");
+    let whitePawn2 = new Pawn(6, 1, "white");
+    let whitePawn3 = new Pawn(6, 2, "white");
+    let whitePawn4 = new Pawn(6, 3, "white");
+    let whitePawn5 = new Pawn(6, 4, "white");
+    let whitePawn6 = new Pawn(6, 5, "white");
+    let whitePawn7 = new Pawn(6, 6, "white");
+    let whitePawn8 = new Pawn(6, 7, "white");
+
+    piecesOnBoard.push( 
+        blackKing, 
+        blackQueen, 
+        blackRook, 
+        blackSecondRook, 
+        blackBishop, 
+        blackSecondBishop, 
+        blackKnight,
+        blackSecondKnight, 
+        blackPawn1,
+        blackPawn2,
+        blackPawn3,
+        blackPawn4,
+        blackPawn5,
+        blackPawn6,
+        blackPawn7,
+        blackPawn8,
+        whiteKing,
+        whiteQueen, 
+        whiteRook, 
+        whiteSecondRook, 
+        whiteBishop, 
+        whiteSecondBishop, 
+        whiteKnight,
+        whiteSecondKnight, 
+        whitePawn1,
+        whitePawn2,
+        whitePawn3,
+        whitePawn4,
+        whitePawn5,
+        whitePawn6,
+        whitePawn7,
+        whitePawn8,
+    );
+}
+
+function initiateUser(username, color){
+    player = new Player(username, color);
+}
+function selectPiece(x, y){
+    const piece = piecesOnBoard.filter(piece => piece.xPosition === x && piece.yPosition === y);
+        if(piece[0]){
+            return piece[0];
+        }
+}
