@@ -9,7 +9,6 @@ let player;
 //----------------------------------------------------------------------------
 // evenements
 //----------------------------------------------------------------------------
-
 addEventListener("load", (event) => {
     initiateUser("max", "black");
     startNewGame();
@@ -25,9 +24,6 @@ function clickCase(){
             chessCase.addEventListener('click', () => {
                 console.log(x, y)
                 const selectedPiece = selectPiece(x, y);
-                if(selectedPiece){
-                    
-                }                
             })
         }
     }
