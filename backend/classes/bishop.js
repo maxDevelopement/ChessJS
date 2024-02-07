@@ -1,4 +1,4 @@
-const { ChessPiece } = require('./chessPiece.js');
+const { ChessPiece } = require('./chessPiece.js')
 const { checkCaseExist, checkGoodColorCase } = require('../routes/displayBoard')
 
 class Bishop extends ChessPiece{
@@ -6,7 +6,7 @@ class Bishop extends ChessPiece{
         super(xPosition, yPosition, color, grade, _img, possiblesMoves);
         this.grade = grade;
     }
-    calculMove(actualBoard){
+    calculMove(){
         // calcul en diagonale : 
         // NW => North-West
         // NE => Noth-East
@@ -19,47 +19,52 @@ class Bishop extends ChessPiece{
         for(let coord = 1; coord < 8; coord++){
             // NW 
             if(NWstillAvailable){
-                const selectNWCase = checkCaseExist(actualBoard, this.xPosition + coord, this.yPosition - coord)
+                const selectNWCase = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
                 if(!selectNWCase){
                     NWstillAvailable = false
                 }else{
-                    if(checkGoodColorCase(this.color, selectNWCase.color)){
-                        this.possiblesMoves.push(selectNWCase)
-                    }                
+                    this.possiblesMoves.push(selectNWCase)
+                    /*if(checkGoodColorCase(this.color, selectNWCase.color)){
+                        
+                    } */               
                 }
             }
             // NE
             if(NEstillAvailable){
-                const selectNECase = checkCaseExist(actualBoard, this.xPosition + coord, this.yPosition + coord)
+                const selectNECase = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
                 if(!selectNECase){
                     NEstillAvailable = false
                 }else{
-                    if(checkGoodColorCase(this.color, selectNECase.color)){
-                        this.possiblesMoves.push(selectNECase)
-                    }
+                    console.log("selectedCase nishop : ", selectNEcase)
+                    this.possiblesMoves.push(selectNECase)
+                    /*if(checkGoodColorCase(this.color, selectNECase.color)){
+                        
+                    }*/
                     
                 }
             }
             // SE
             if(SEstillAvailable){
-                const selectSEcase = checkCaseExist(actualBoard, this.xPosition - coord, this.yPosition + coord)
+                const selectSEcase = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
                 if(!selectSEcase){
                     SEstillAvailable = false
                 }else{
-                    if(checkGoodColorCase(this.color, selectSEcase.color)){
-                        this.possiblesMoves.push(selectSEcase)
-                    }
+                    this.possiblesMoves.push(selectSEcase)
+                    /*if(checkGoodColorCase(this.color, selectSEcase.color)){
+                        
+                    }*/
                 }
             }
             // SW
             if(SWstillAvailable){
-                const selectSWcase = checkCaseExist(actualBoard, this.xPosition - coord, this.yPosition - coord)
+                const selectSWcase = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
                 if(!selectSWcase){
                     SWstillAvailable = false
                 }else{
-                    if(checkGoodColorCase(this.color, selectSWcase.color)){
-                        this.possiblesMoves.push(selectSWcase)
-                    }
+                    this.possiblesMoves.push(selectSWcase)
+                    /*if(checkGoodColorCase(this.color, selectSWcase.color)){
+                        
+                    }*/
                 }
             }
         }

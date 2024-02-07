@@ -5,8 +5,7 @@ class King extends ChessPiece{
         super(xPosition, yPosition, color, grade, _img, possiblesMoves);
         this.grade = grade;
     }
-    calculMove(actualBoard){
-        possibleMoves = [];
+    calculMove(){
         const KingMoves = [
             {
                 x: this.xPosition + 1,
@@ -33,21 +32,23 @@ class King extends ChessPiece{
                 y: this.yPosition - 1
             },
             {
-                x: this.xPosition + 1,
-                y: this.yPosition
+                x: this.xPosition,
+                y: this.yPosition + 1
             },
             {
-                x: this.xPosition + 1,
-                y: this.yPosition
+                x: this.xPosition,
+                y: this.yPosition - 1 
             }
         ]
         KingMoves.forEach((move) => {
-            const existCase = checkCaseExist(actualBoard, move.x, move.y)
-            if(existCase.color === this.color){ return }
-            this.possibleMoves.push( {
-                x: existCase.xPosition,
-                y: existCase.yPosition
-            })
+            const existCase = this.doCaseExist(move.x, move.y)
+            if(existCase){
+                console.log("this.possiblesMoves : ", this.possiblesMoves)
+                this.possiblesMoves.push({
+                    x: move.x,
+                    y: move.y
+                })
+            }      
         })
     }
     

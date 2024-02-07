@@ -1,16 +1,13 @@
-//----------------------------------------------------------------------------
-// importation des classes
-//----------------------------------------------------------------------------
-let { King } = require('../classes/king.js');
-let { Queen } = require('../classes/queen.js');
-let { Rook } = require('../classes/rook.js');
-let { Bishop } = require('../classes/bishop.js');
-let { Knight } = require('../classes/knight.js');
-let { Pawn } = require('../classes/pawn.js');
+const { King } = require('../classes/king')
+const { Queen } = require('../classes/queen')
+const { Rook } = require('../classes/rook')
+const { Bishop } = require('../classes/bishop')
+const { Knight } = require('../classes/knight')
+const { Pawn } = require('../classes/pawn')
 
-
-function createNewGame(){
-    let piecesOnBoard = []
+// tout effacer et recommencer une partie 
+function startNewGame(){
+    piecesOnBoard = [];/*
     let blackKing = new King(0, 4, "black");
     let blackQueen = new Queen(0, 3, "black");
     let blackRook = new Rook(0, 0, "black");
@@ -27,9 +24,14 @@ function createNewGame(){
     let blackPawn6 = new Pawn(1, 5, "black");
     let blackPawn7 = new Pawn(1, 6, "black");
     let blackPawn8 = new Pawn(1, 7, "black");
-
+*/
     let whiteKing = new King(7, 4, "white");
-    let whiteQueen = new Queen(7, 3, "white");
+    whiteKing.calculMove();
+    piecesOnBoard.push(whiteKing);
+    let whiteBishop = new Bishop(7, 2, "white");
+    whiteBishop.calculMove();
+    piecesOnBoard.push(whiteBishop);
+/*    let whiteQueen = new Queen(7, 3, "white");
     let whiteRook = new Rook(7, 0, "white");
     let whiteSecondRook = new Rook(7, 7, "white");
     let whiteBishop = new Bishop(7, 2, "white");
@@ -78,17 +80,8 @@ function createNewGame(){
         whitePawn6,
         whitePawn7,
         whitePawn8,
-    );
-    return piecesOnBoard;
+    )*/
+    return piecesOnBoard
 }
 
-function checkGoodColorCase(caseSourceColor, caseDestinationColor){
-    if(caseSourceColor === caseDestinationColor){
-        return false
-    }else{
-        return true
-    }
-}
-
-module.exports = { createNewGame, checkGoodColorCase }
-
+module.exports = startNewGame 

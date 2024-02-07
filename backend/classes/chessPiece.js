@@ -5,7 +5,7 @@ class ChessPiece{
         this.color = color;
         this.grade = grade;
         this._img = this.setImg(this.color);
-        this.possibleMoves;
+        this.possiblesMoves = [];
     }
     get img(){
         return this._img;

@@ -1,4 +1,3 @@
-const { checkCaseExist } = require('../routes/displayBoard.js')
 const { ChessPiece } = require('./chessPiece.js')
 
 class Pawn extends ChessPiece{
