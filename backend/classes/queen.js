@@ -5,7 +5,7 @@ class Queen extends ChessPiece{
         super(xPosition, yPosition, color, grade, _img, possiblesMoves)
         this.grade = grade
     }
-    calculMove(){
+    calculMove(actualBoard){
         // calcul en diagonale (fou): 
         // NW => North-West
         // NE => Noth-East
@@ -24,94 +24,133 @@ class Queen extends ChessPiece{
             // NW 
             if(NWstillAvailable){
                 const doNWCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
-                if(!doNWCaseExist){
-                    NWstillAvailable = false
+                if( doNWCaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition - coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition + coord,
+                            y: this.yPosition - coord
+                        })
+                    }else{
+                        NWstillAvailable = false
+                    }                    
                 }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition + coord,
-                        y: this.yPosition - coord
-                    })             
+                    NWstillAvailable = false
                 }
             }
             // NE
             if(NEstillAvailable){
                 const doNECaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
-                if(!doNECaseExist){
-                    NEstillAvailable = false
+                if(doNECaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition + coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition + coord,
+                            y: this.yPosition + coord
+                        })
+                    }else{
+                        NEstillAvailable = false
+                    }
                 }else{
-                    console.log("selectedCase nishop : ", selectNEcase)
-                    this.possiblesMoves.push({
-                        x: this.xPosition + coord,
-                        y: this.yPosition + coord
-                    })
+                    NEstillAvailable = false                    
                 }
             }
             // SE
             if(SEstillAvailable){
                 const doSEcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
-                if(!doSEcaseExist){
+                if(doSEcaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition + coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition - coord,
+                            y: this.yPosition + coord
+                        })
+                    }else{
+                        SEstillAvailable = false
+                    }                   
+                }else{                    
                     SEstillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition - coord,
-                        y: this.yPosition + coord
-                    })
                 }
             }
             // SW
             if(SWstillAvailable){
                 const doSWcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
-                if(!doSWcaseExist){
+                if(doSWcaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition - coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition - coord,
+                            y: this.yPosition - coord
+                        })
+                    }else{
+                        SWstillAvailable = false
+                    }                    
+                }else{                    
                     SWstillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition - coord,
-                        y: this.yPosition - coord
-                    })
                 }
             }
             if(northLineStillAvailable){
                 const doNorthCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition)
-                if(!doNorthCaseExist){
-                    northLineStillAvailable = false
+                if(doNorthCaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition + coord,
+                            y: this.yPosition
+                        })
+                    }else{
+                        northLineStillAvailable = false
+                    }
                 }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition + coord,
-                        y: this.yPosition
-                    })
+                    northLineStillAvailable = false                    
                 }
             }
             if(eastLineStillAvailable){
                 const doEastCaseExist = this.doCaseExist(this.xPosition, this.yPosition + coord)
-                if(!doEastCaseExist){
+                if(doEastCaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition, this.yPosition + coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition,
+                            y: this.yPosition + coord
+                        })
+                    }else{
+                        eastLineStillAvailable = false
+                    }
+                }else{                    
                     eastLineStillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition,
-                        y: this.yPosition + coord
-                    })
                 }
             }
             if(southLineStillAvailable){
                 const doSouthCaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition)
-                if(!doSouthCaseExist){
+                if(doSouthCaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition - coord,
+                            y: this.yPosition
+                        })
+                    }else{
+                        southLineStillAvailable = false
+                    }                    
+                }else{                    
                     southLineStillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition - coord,
-                        y: this.yPosition
-                    })
                 }
             }
             if(westLineStillAvailable){
                 const doWestCaseExist = this.doCaseExist(this.xPosition, this.yPosition - coord)
-                if(!doWestCaseExist){
+                if(doWestCaseExist){                    
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition, this.yPosition - coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition,
+                            y: this.yPosition - coord
+                        })
+                    }else{
+                        westLineStillAvailable = false
+                    }      
+                }else{                    
                     westLineStillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition,
-                        y: this.yPosition - coord
-                    })
                 }
             }
         }

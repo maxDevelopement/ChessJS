@@ -6,7 +6,7 @@ class Bishop extends ChessPiece{
         super(xPosition, yPosition, color, grade, _img, possiblesMoves);
         this.grade = grade;
     }
-    calculMove(){
+    calculMove(actualBoard){
         // calcul en diagonale : 
         // NW => North-West
         // NE => Noth-East
@@ -20,60 +20,69 @@ class Bishop extends ChessPiece{
             // NW 
             if(NWstillAvailable){
                 const doNWCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
-                if(!doNWCaseExist){
-                    NWstillAvailable = false
+                if( doNWCaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition - coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition + coord,
+                            y: this.yPosition - coord
+                        })
+                    }else{
+                        NWstillAvailable = false
+                    }                    
                 }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition + coord,
-                        y: this.yPosition - coord
-                    })             
+                    NWstillAvailable = false
                 }
             }
             // NE
             if(NEstillAvailable){
                 const doNECaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
-                if(!doNECaseExist){
-                    NEstillAvailable = false
+                if(doNECaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition + coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition + coord,
+                            y: this.yPosition + coord
+                        })
+                    }else{
+                        NEstillAvailable = false
+                    }
                 }else{
-                    console.log("selectedCase nishop : ", selectNEcase)
-                    this.possiblesMoves.push({
-                        x: this.xPosition + coord,
-                        y: this.yPosition + coord
-                    })
-                    /*if(checkGoodColorCase(this.color, selectNECase.color)){
-                        
-                    }*/
-                    
+                    NEstillAvailable = false                    
                 }
             }
             // SE
             if(SEstillAvailable){
                 const doSEcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
-                if(!doSEcaseExist){
+                if(doSEcaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition + coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition - coord,
+                            y: this.yPosition + coord
+                        })
+                    }else{
+                        SEstillAvailable = false
+                    }                   
+                }else{                    
                     SEstillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition - coord,
-                        y: this.yPosition + coord
-                    })
-                    /*if(checkGoodColorCase(this.color, selectSEcase.color)){
-                        
-                    }*/
                 }
             }
             // SW
             if(SWstillAvailable){
                 const doSWcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
-                if(!doSWcaseExist){
+                if(doSWcaseExist){
+                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition - coord)
+                    if(!colorIsSame){
+                        this.possiblesMoves.push({
+                            x: this.xPosition - coord,
+                            y: this.yPosition - coord
+                        })
+                    }else{
+                        SWstillAvailable = false
+                    }                    
+                }else{                    
                     SWstillAvailable = false
-                }else{
-                    this.possiblesMoves.push({
-                        x: this.xPosition - coord,
-                        y: this.yPosition - coord
-                })
-                    /*if(checkGoodColorCase(this.color, selectSWcase.color)){
-                        
-                    }*/
                 }
             }
         }

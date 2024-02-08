@@ -11,31 +11,25 @@ function startNewGame(){
     let actualBoard = [];
     let finalBoardToSend = [];
 
-    let blackKing = new King(0, 4, "black");
-    let blackQueen = new Queen(0, 3, "black");
-    let blackRook = new Rook(0, 0, "black");
-    let blackSecondRook = new Rook(0, 7, "black");
-    let blackBishop = new Bishop(0, 2, "black");
-    let blackSecondBishop = new Bishop(0, 5, "black");
-    let blackKnight = new Knight(0, 1, "black");
-    let blackSecondKnight = new Knight(0, 6, "black");
-    let blackPawn1 = new Pawn(1, 0, "black");
-    let blackPawn2 = new Pawn(1, 1, "black");
-    let blackPawn3 = new Pawn(1, 2, "black");
-    let blackPawn4 = new Pawn(1, 3, "black");
-    let blackPawn5 = new Pawn(1, 4, "black");
-    let blackPawn6 = new Pawn(1, 5, "black");
-    let blackPawn7 = new Pawn(1, 6, "black");
-    let blackPawn8 = new Pawn(1, 7, "black");
+    for(let y = 0; y < 8; y++){
+        let empty1 = new Empty(2, y, "none")
+        let empty2 = new Empty(3, y, "none")
+        let empty3 = new Empty(4, y, "none")
+        let empty4 = new Empty(5, y, "none")
+        actualBoard.push(empty1, empty2, empty3, empty4)
+        finalBoardToSend.push(empty1, empty2, empty3, empty4)
+    }
 
-    let whiteKing = new King(7, 4, "white");
-    let whiteQueen = new Queen(7, 3, "white");
-    let whiteBishop = new Bishop(7, 2, "white");
-    let whiteSecondBishop = new Bishop(7, 5, "white");
     let whiteRook = new Rook(7, 0, "white");
-    let whiteSecondRook = new Rook(7, 7, "white");
     let whiteKnight = new Knight(7, 1, "white");
+    let whiteBishop = new Bishop(7, 2, "white");
+    let whiteQueen = new Queen(7, 3, "white");  
+    let whiteKing = new King(7, 4, "white");
+    let whiteSecondBishop = new Bishop(7, 5, "white");
     let whiteSecondKnight = new Knight(7, 6, "white");
+    let whiteSecondRook = new Rook(7, 7, "white");
+    
+    
     let whitePawn1 = new Pawn(6, 0, "white");
     let whitePawn2 = new Pawn(6, 1, "white");
     let whitePawn3 = new Pawn(6, 2, "white");
@@ -46,49 +40,15 @@ function startNewGame(){
     let whitePawn7 = new Pawn(6, 6, "white");
     let whitePawn8 = new Pawn(6, 7, "white");
 
-actualBoard.push( 
-    whiteKing, 
-    whiteQueen, 
-    whiteRook, 
-    whiteSecondRook, 
-    whiteBishop, 
-    whiteSecondBishop, 
-    whiteKnight,
-    whiteSecondKnight, 
-    whitePawn1,
-    whitePawn2,
-    whitePawn3,
-    whitePawn4,
-    invisible,
-    whitePawn6,
-    whitePawn7,
-    whitePawn8 
-)
-    for(let y = 0; y < 8; y++){
-        let empty1 = new Empty(2, y, "none")
-        let empty2 = new Empty(3, y, "none")
-        let empty3 = new Empty(4, y, "none")
-        let empty4 = new Empty(5, y, "none")
-        actualBoard.push(empty1, empty2, empty3, empty4)
-        finalBoardToSend.push(empty1, empty2, empty3, empty4)
-    }
-    whiteKing.calculMove(actualBoard);
-    whiteQueen.calculMove();
-    whiteBishop.calculMove();
-    whiteSecondBishop.calculMove();
-    whiteRook.calculMove();
-    whiteSecondRook.calculMove();
-    whiteKnight.calculMove();    
-    whiteSecondKnight.calculMove();
-    finalBoardToSend.push(
-        whiteKing, 
-        whiteQueen, 
-        whiteBishop, 
-        whiteSecondBishop, 
+    actualBoard.push(
         whiteRook, 
-        whiteSecondRook, 
-        whiteKnight, 
+        whiteBishop, 
+        whiteKnight,
+        whiteKing, 
+        whiteQueen,  
+        whiteSecondBishop, 
         whiteSecondKnight,
+        whiteSecondRook,
         whitePawn1,
         whitePawn2,
         whitePawn3,
@@ -96,7 +56,36 @@ actualBoard.push(
         invisible,
         whitePawn6,
         whitePawn7,
-        whitePawn8 );
+        whitePawn8 
+    )
+
+    whiteKing.calculMove(actualBoard);
+    whiteQueen.calculMove(actualBoard);
+    whiteBishop.calculMove(actualBoard);
+    whiteSecondBishop.calculMove(actualBoard);
+    whiteRook.calculMove(actualBoard);
+    whiteSecondRook.calculMove(actualBoard);
+    whiteKnight.calculMove();    
+    whiteSecondKnight.calculMove();
+
+    finalBoardToSend.push(
+        whiteRook, 
+        whiteBishop, 
+        whiteKnight,
+        whiteKing, 
+        whiteQueen,  
+        whiteSecondBishop, 
+        whiteSecondKnight,
+        whiteSecondRook,
+        whitePawn1,
+        whitePawn2,
+        whitePawn3,
+        whitePawn4,
+        invisible,
+        whitePawn6,
+        whitePawn7,
+        whitePawn8 
+    );
 
 /*    
     
