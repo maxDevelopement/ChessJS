@@ -1,5 +1,5 @@
 const { ChessPiece } = require('./chessPiece.js')
-const { checkCaseExist, checkGoodColorCase } = require('../routes/displayBoard')
+const { checkCaseExist, doCaseExist } = require('../routes/displayBoard')
 
 class Bishop extends ChessPiece{
     constructor(xPosition, yPosition, color, grade = "bishop", _img, possiblesMoves){
@@ -19,24 +19,27 @@ class Bishop extends ChessPiece{
         for(let coord = 1; coord < 8; coord++){
             // NW 
             if(NWstillAvailable){
-                const selectNWCase = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
-                if(!selectNWCase){
+                const doNWCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
+                if(!doNWCaseExist){
                     NWstillAvailable = false
                 }else{
-                    this.possiblesMoves.push(selectNWCase)
-                    /*if(checkGoodColorCase(this.color, selectNWCase.color)){
-                        
-                    } */               
+                    this.possiblesMoves.push({
+                        x: this.xPosition + coord,
+                        y: this.yPosition - coord
+                    })             
                 }
             }
             // NE
             if(NEstillAvailable){
-                const selectNECase = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
-                if(!selectNECase){
+                const doNECaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
+                if(!doNECaseExist){
                     NEstillAvailable = false
                 }else{
                     console.log("selectedCase nishop : ", selectNEcase)
-                    this.possiblesMoves.push(selectNECase)
+                    this.possiblesMoves.push({
+                        x: this.xPosition + coord,
+                        y: this.yPosition + coord
+                    })
                     /*if(checkGoodColorCase(this.color, selectNECase.color)){
                         
                     }*/
@@ -45,11 +48,14 @@ class Bishop extends ChessPiece{
             }
             // SE
             if(SEstillAvailable){
-                const selectSEcase = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
-                if(!selectSEcase){
+                const doSEcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
+                if(!doSEcaseExist){
                     SEstillAvailable = false
                 }else{
-                    this.possiblesMoves.push(selectSEcase)
+                    this.possiblesMoves.push({
+                        x: this.xPosition - coord,
+                        y: this.yPosition + coord
+                    })
                     /*if(checkGoodColorCase(this.color, selectSEcase.color)){
                         
                     }*/
@@ -57,11 +63,14 @@ class Bishop extends ChessPiece{
             }
             // SW
             if(SWstillAvailable){
-                const selectSWcase = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
-                if(!selectSWcase){
+                const doSWcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
+                if(!doSWcaseExist){
                     SWstillAvailable = false
                 }else{
-                    this.possiblesMoves.push(selectSWcase)
+                    this.possiblesMoves.push({
+                        x: this.xPosition - coord,
+                        y: this.yPosition - coord
+                })
                     /*if(checkGoodColorCase(this.color, selectSWcase.color)){
                         
                     }*/

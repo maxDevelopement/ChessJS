@@ -6,7 +6,11 @@ class Pawn extends ChessPiece{
         this.grade = grade
     }
     calculMove(actualBoard){
-        const selectedCase = checkCaseExist(actualBoard, this.xPosition + 1, this.yPosition)
+        if(this.xPosition === 6){
+            const selectedCase = checkCaseExist(actualBoard, this.xPosition + 1, this.yPosition)
+            const selectedSecondCase = checkCaseExist(actualBoard, this.xPosition + 2, this.yPosition)
+
+        }      
         if(!selectedCase){
             // case devient reine ou toute autre pièce
         }else{

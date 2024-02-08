@@ -38,10 +38,21 @@ class ChessPiece{
     // cette fonction determine si le joueur peut déplacer sa pièce sur la case de destination proposée
     // le joueur peut déplacer sa pièce uniquement si la case est vide ou a une pièce enemie
     // les paramètres de la fonction sont : 
-    // 1) xDestination : coordonnée x de la case de destination
-    // 2) yDestination : coordonée y de la case de destination 
-    isCaseAvailable(xDestination, yDestination){
-        
+    // 1) array : le tableau qui contient tout les objets du tableau de jeu
+    // 2) object : l'objet "this" de la case source qui contient toutes les infos
+    // 3) xDestination : coordonnée x de la case de destination
+    // 4) yDestination : coordonée y de la case de destination 
+    isDestinationCaseColorTheSame(boardArray, object, xDestination, yDestination){
+        //console.log("actualBoard : ", boardArray)
+        //console.log("object : ", object.color)
+        //console.log("coord : ", xDestination, yDestination)
+        console.log("isDestinationCaseColorTheSame")
+        // = boardArray.filter((caseItem) => { caseItem.xPosition === xDestination && caseItem.yPosition === yDestination})
+        const checkedCase = boardArray.find(caseItem => caseItem.xPosition === xDestination && caseItem.yPosition === yDestination);
+        if(checkedCase.color === object.color){
+            return true
+        }     
+        return false   
     }
 }
 

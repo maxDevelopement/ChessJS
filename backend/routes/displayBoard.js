@@ -82,13 +82,5 @@ function createNewGame(){
     return piecesOnBoard;
 }
 
-function checkGoodColorCase(caseSourceColor, caseDestinationColor){
-    if(caseSourceColor === caseDestinationColor){
-        return false
-    }else{
-        return true
-    }
-}
-
-module.exports = { createNewGame, checkGoodColorCase }
+module.exports = { createNewGame }
 

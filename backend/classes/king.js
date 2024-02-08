@@ -1,11 +1,10 @@
 const { ChessPiece } = require('./chessPiece.js');
-const { checkCaseExist } = require('../routes/displayBoard.js')
 class King extends ChessPiece{
     constructor(xPosition, yPosition, color, grade = "king", _img, possiblesMoves){
         super(xPosition, yPosition, color, grade, _img, possiblesMoves);
         this.grade = grade;
     }
-    calculMove(){
+    calculMove(actualBoard){
         const KingMoves = [
             {
                 x: this.xPosition + 1,
@@ -40,18 +39,23 @@ class King extends ChessPiece{
                 y: this.yPosition - 1 
             }
         ]
+        //console.log("actualboard : ", actualBoard)
         KingMoves.forEach((move) => {
             const existCase = this.doCaseExist(move.x, move.y)
             if(existCase){
-                console.log("this.possiblesMoves : ", this.possiblesMoves)
-                this.possiblesMoves.push({
-                    x: move.x,
-                    y: move.y
-                })
-            }      
+                const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, move.x, move.y)
+                //console.log("comparaison couleur (true ou false attendue : ", colorIsSame)
+                //console.log("color source : ", this.color)
+                if(existCase && !colorIsSame){
+                    //console.log("this.possiblesMoves : ", this.possiblesMoves)
+                    this.possiblesMoves.push({
+                        x: move.x,
+                        y: move.y
+                    })
+                } 
+            }                
         })
-    }
-    
+    }   
 }
 
 

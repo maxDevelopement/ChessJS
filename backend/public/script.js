@@ -17,29 +17,30 @@ addEventListener("load", (event) => {
 
 function clickCase(){
     // au click d'une case
-        for(let x = 0; x <= 7; x++){
-            for(let y = 0; y <= 7; y++){
-                const chessCase = chessBoardArray[x][y];
-                chessCase.addEventListener('click', () => {
-                    if(clickActif === false){
-                        console.log("clickActif : ", clickActif)
-                        console.log(x, y)
-                        const selectedPiece = selectPiece(x, y);
-                        if(selectedPiece){
-                            console.log("moves possibles de la piece : ", selectedPiece.possiblesMoves);
-                            showPossiblesMoves(selectedPiece.possiblesMoves);
-                            if(selectedPiece.possiblesMoves.length > 0){
-                                clickActif = true;
-                            }
+    for(let x = 0; x <= 7; x++){
+        for(let y = 0; y <= 7; y++){
+            const chessCase = chessBoardArray[x][y];
+            chessCase.addEventListener('click', () => {
+                if(clickActif === false){
+                    console.log("clickActif : ", clickActif)
+                    console.log(x, y)
+                    const selectedPiece = selectPiece(x, y);
+                    console.log("selected div : ", selectedPiece)
+                    if(selectedPiece){
+                        console.log("moves possibles de la piece : ", selectedPiece.possiblesMoves);
+                        showPossiblesMoves(selectedPiece.possiblesMoves);
+                        if(selectedPiece.possiblesMoves.length > 0){
+                            clickActif = true;
                         }
                     }
-                    else{
-                        cleanMovements();
-                        clickActif = false;
-                    }
-                })
-            }
-        }    
+                }
+                else{
+                    cleanMovements();
+                    clickActif = false;
+                }
+            })
+        }
+    }    
 }
 
 btStartNewGame.on('click', () => {
