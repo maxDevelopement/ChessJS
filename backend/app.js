@@ -3,9 +3,13 @@ const express = require('express')
 const app = express()
 const port = 3000 
 const path = require('path')
+const cors = require('cors')
 
+
+app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 app.get(('/', (req, res) => {
+    console.log("request")
     res.sendFile('index.html', { root: path.join(__dirname, 'public')});
 }))
 
@@ -15,8 +19,6 @@ app.use(bodyParser.json())
 
 require('./routes/startNewGame')(app)
 //require('./routes/createUser')(app)
-
-
 
 // erreur 404 si aucunes route n'est trouvée
 app.use(({req, res}) => {

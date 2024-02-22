@@ -95,7 +95,7 @@ class Queen extends ChessPiece{
                     const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition)
                     if(!colorIsSame){
                         this.possiblesMoves.push({
-                            x: this.xPosition + coord,
+                            x: this.xPosition - coord,
                             y: this.yPosition
                         })
                     }else{
@@ -127,7 +127,7 @@ class Queen extends ChessPiece{
                     const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition)
                     if(!colorIsSame){
                         this.possiblesMoves.push({
-                            x: this.xPosition - coord,
+                            x: this.xPosition + coord,
                             y: this.yPosition
                         })
                     }else{

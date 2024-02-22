@@ -23,7 +23,7 @@ class ChessPiece{
                 return `./img/white/${this.grade}.png`;
             }
             case "none" : {
-                return undefined;
+                return "none";
             }
         }
     }
@@ -44,7 +44,7 @@ class ChessPiece{
     // 4) yDestination : coordonée y de la case de destination 
     isDestinationCaseColorTheSame(boardArray, object, xDestination, yDestination){
         const checkedCase = boardArray.find(caseItem => caseItem.xPosition === xDestination && caseItem.yPosition === yDestination);
-        console.log("checkedCase1 : ", checkedCase)
+        //console.log("isDestinationCaseColorTheSame : ", checkedCase, xDestination, yDestination)
         if(checkedCase.color === object.color){
             return true
         }     

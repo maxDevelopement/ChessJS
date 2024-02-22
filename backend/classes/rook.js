@@ -6,12 +6,11 @@ class Rook extends ChessPiece{
         this.grade = grade;
     }
     calculMove(actualBoard){
-        for(let coord = 1; coord < 8; coord++){
-            let northLineStillAvailable = true
-            let eastLineStillAvailable = true
-            let southLineStillAvailable = true
-            let westLineStillAvailable = true
-            
+        let northLineStillAvailable = true
+        let eastLineStillAvailable = true
+        let southLineStillAvailable = true
+        let westLineStillAvailable = true
+        for(let coord = 1; coord < 8; coord++){            
             if(northLineStillAvailable){
                 const doNorthCaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition)
                 console.log("north case : ", doNorthCaseExist)
@@ -26,7 +25,7 @@ class Rook extends ChessPiece{
                         northLineStillAvailable = false
                     }
                 }else{
-                    northLineStillAvailable = false                    
+                    northLineStillAvailable = false    
                 }
             }
             if(eastLineStillAvailable){

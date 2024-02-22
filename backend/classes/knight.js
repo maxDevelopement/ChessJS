@@ -5,7 +5,7 @@ class Knight extends ChessPiece{
         super(xPosition, yPosition, color, grade, _img, possiblesMoves);
         this.grade = grade;
     }
-    calculMove(){
+    calculMove(actualBoard){
         const KnightMoves = [
             {
                 x: this.xPosition + 2,
@@ -43,11 +43,13 @@ class Knight extends ChessPiece{
         KnightMoves.forEach((move) => {
             const existCase = this.doCaseExist(move.x, move.y)
             if(existCase){
-                console.log("this.possiblesMoves : ", this.possiblesMoves)
-                this.possiblesMoves.push({
-                    x: move.x,
-                    y: move.y
-                })
+                if(!this.isDestinationCaseColorTheSame(actualBoard, this, move.x, move.y)){
+                    //console.log("this.possiblesMoves : ", this.possiblesMoves)
+                    this.possiblesMoves.push({
+                        x: move.x,
+                        y: move.y
+                    })
+                }         
             }      
         })
     }
