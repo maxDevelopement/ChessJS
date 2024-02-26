@@ -4,9 +4,8 @@ const app = express()
 const port = 3000 
 const path = require('path')
 const cors = require('cors')
+const initDb = require('./db/initDb')
 
-
-app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 app.get(('/', (req, res) => {
     console.log("request")
@@ -14,11 +13,13 @@ app.get(('/', (req, res) => {
 }))
 
 app.listen(port, () => console.log(`server run on port ${port}`))
+initDb()
 
+app.use(cors())
 app.use(bodyParser.json())
 
 require('./routes/startNewGame')(app)
-//require('./routes/createUser')(app)
+require('./routes/createUser')(app)
 
 // erreur 404 si aucunes route n'est trouvée
 app.use(({req, res}) => {

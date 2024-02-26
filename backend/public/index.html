@@ -5,14 +5,44 @@
   <title>ChessJS</title>
   <link rel="stylesheet" href="style.css"> 
   <link rel="icon" type="image/x-icon" href="img/divers/favicon.ico">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <h2>ChessJS</h2>
-
-    <input type="button" value="start new game !" id="btStartNewGame">
-    <div class="chessBoardContainer">
-    <div id="chessBoard"></div></div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js" ></script>
+    <div id="homePageConnexionBt">
+      <input id="btOpenLoginForm" type="button" value="Login">
+      <input id="btOpenSubscribeForm" type="button" value="Subscribe">
+    </div>
+    <div id="homePageUserConnected">
+      <div id="userPopup"></div>
+      <input id="btOpenCreateGameForm" type="button" value="Create game">
+      <input id="btOpenContinueGameForm" type="button" value="Continue game">
+    </div>
+    <div id="subscribeForm">
+      <h3>Subscribe</h3>
+      <input id="inputUsernameSubscribe" type="text" placeholder="Username">
+      <input id="inputPassword1Subscribe" type="text" placeholder="password">
+      <input id="inputPassword2Subscribe" type="text" placeholder="confirm password">
+      <div id="btsSubscribe">
+        <input id="inputCancelSubscribe" type="button" value="cancel">
+        <input id="inputSendSubscribe" type="button" value="send">
+      </div>
+    </div>
+    <div id="loginForm">
+      <h3>Login</h3>
+      <input id="inputUsernameLogin" type="text" placeholder="Username">
+      <input id="inputPassword1Login" type="text" placeholder="password">
+      <div id="btsLogin">
+        <input id="inputCancelLogin" type="button" value="cancel">
+        <input id="inputSendLogin" type="button" value="send">
+      </div>
+    </div>
+    
+    <div id="chessBoardContainer">
+      <input type="button" value="start new game !" id="btStartNewGame">
+      <div id="chessBoard"></div>
+    </div>
+    <script src="./scripts/formsGestion.js" type="module"></script>
+    <script src="./scripts/gameGestion.js" type="module"></script>
 </body>
 </html>

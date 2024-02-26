@@ -3,7 +3,7 @@ body{
 }
 
 #chessBoard{
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 .line{
@@ -24,4 +24,57 @@ body{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+#chessBoardContainer{
+    display: none;
+}
+#homePageConnexionBt{
+    display: none;
+    justify-content: center;
+    gap: 1%;
+    height: 100%;
+    margin-top: 30%;
+}
+#homePageConnexionBt > input {
+    border: 1px solid black;
+    border-radius: 50px;
+    font-size: 30px;
+    padding: 10px;
+    background-color: transparent;
+}
+#subscribeForm{
+    display: none;
+    margin: auto;
+    width: 50%;
+    padding: 20px;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    border: 1px solid black;
+}
+#subscribeForm > input{
+    width: 30%;
+    margin: auto;
+}
+#loginForm{
+    display: none;
+    margin: auto;
+    width: 50%;
+    padding: 20px;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    border: 1px solid black;
+}
+#loginForm > input{
+    width: 30%;
+    margin: auto;
+}
+#btsLogin, #btsSubscribe{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+#homePageUserConnected{
+    display: none;
 }
