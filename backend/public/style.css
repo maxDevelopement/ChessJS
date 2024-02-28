@@ -76,5 +76,28 @@ body{
     gap: 5px;
 }
 #homePageUserConnected{
+    display: none;    
+    background-color: bisque;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#createGameForm{
     display: none;
+    width: 40%;
+    margin: auto;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 40px;
+    background-color: white;
+}
+#createGameForm > div{
+    margin: 20px;
+}
+#searchedOpponent{
+    border: 3px solid green;
+    color: green;
+    border-radius: 50px;
+
 }

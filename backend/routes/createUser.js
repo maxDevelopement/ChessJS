@@ -24,7 +24,7 @@ module.exports = (app) => {
                 } 
                 console.log("userData : ", userData)
                 const message = "user créé avec succès"
-                const userDataToSend = { id: userData.idUser, username: userData.username }
+                const userDataToSend = { idUser: userData.idUser, username: userData.username }
                 res.json({msg: message, user: userDataToSend, auth: true})                            
             })             
         }

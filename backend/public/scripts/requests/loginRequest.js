@@ -1,11 +1,11 @@
-export default async function subscribeRequest(username, password){
+export default async function loginRequest(username, password){
     console.log("entreée subscribeRequest : ", username, " ", password)
     try{
         let data = {
             username: username,
             password: password
         }
-        const request = await fetch(`http://10.229.32.215:3000/api/createUser`, {
+        const request = await fetch(`http://10.229.32.215:3000/api/loginUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ export default async function subscribeRequest(username, password){
             console.log(result)
             return result
         }else{
-            console.log("insertion a failé")
+            console.log("login a failé")
             return null
         }
     }catch(error){

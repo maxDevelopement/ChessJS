@@ -20,6 +20,8 @@ app.use(bodyParser.json())
 
 require('./routes/startNewGame')(app)
 require('./routes/createUser')(app)
+require('./routes/loginUser')(app)
+require('./routes/searchOpponent')(app)
 
 // erreur 404 si aucunes route n'est trouvée
 app.use(({req, res}) => {
