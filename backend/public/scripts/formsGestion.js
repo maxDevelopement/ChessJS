@@ -4,6 +4,7 @@ import loginRequest from "./requests/loginRequest.js"
 import searchOpponentRequest from "./requests/searchOpponentRequest.js"
 // classes
 import User from "../publicClasses/user.js"
+import createNewGameRequest from "./requests/createNewGameRequest.js"
 
 const homePageConnexionBt = $('#homePageConnexionBt')
 // login
@@ -117,32 +118,45 @@ btSearchOpponent.on('click', async () => {
     const usernameToSearch = inputUsernameOpponent.val()
     const myUsername = getUser().username
     if(!usernameToSearch || usernameToSearch === myUsername){
-        inputUsernameOpponent.css({
-            "borderColor": "red"
-        })
+        changeBorderColor(inputUsernameOpponent, "red")
+        showUsernameOpponent.empty()
         return
     }
     const userExist = await searchOpponentRequest(usernameToSearch)
     if(!userExist.found){
-        inputUsernameOpponent.css({
-            "borderColor": "red"
-        })
+        changeBorderColor(inputUsernameOpponent, "red")
+        showUsernameOpponent.empty()
         return
     }
-    const username = userExist.user.username
-    searchedOpponent = username
+    const opponent = userExist.user
+    searchedOpponent = opponent
     const showName = $('<h3>', {
         id: 'searchedOpponent',
-        text: username
+        text: opponent.username
     })
     showUsernameOpponent.empty()
     showUsernameOpponent.append(showName)
+    changeBorderColor(inputUsernameOpponent, "green")
 })
-btSendCreateGame.on('click', () => {
+btSendCreateGame.on('click', async () => {
     if(!searchedOpponent){
-
+        changeBorderColor(inputUsernameOpponent, "red")
+        return
     }
+    const colorCreator = $('input[name=radioChooseYourColor]:checked').val()
+    console.log("color creator : ", colorCreator, ", idOpponent : ", searchedOpponent.idUser)
+    const actualUser = await getUser()
+    if(actualUser){
+        const newGame = await actualUser.createNewGame(searchedOpponent.idUser, colorCreator)
+        if(newGame.done){
+            closeDiv(createGameForm)
+            openDiv(chessBoardContainer, 'block')
+        }
+    }    
 })
+// GAME GESTION 
+
+
 // ------------------------------------------------
 // FUNCTIONS
 // ------------------------------------------------
@@ -156,6 +170,11 @@ function closeDiv(div){
         'display': 'none'
     })
 }
+function changeBorderColor(input, color){
+    input.css({
+        "borderColor": color
+    })
+}
 // fonction qui ouvre le menu principale une fois le user connecté
 function openConnexion(user){
     openDiv(homePageUserConnected, "flex")
@@ -166,8 +185,9 @@ function openConnexion(user){
     sessionStorage.setItem("user", JSON.stringify(actualUser))
 }
 function getUser(){
-    const actualUser = JSON.parse(sessionStorage.getItem("user"))
-    if(!actualUser){
+    const stockedUser = JSON.parse(sessionStorage.getItem("user"))
+    const actualUser = new User(stockedUser.idUser, stockedUser.username)
+    if(!stockedUser){
         return false
     }
     return actualUser

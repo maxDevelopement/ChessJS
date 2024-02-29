@@ -22,6 +22,7 @@ require('./routes/startNewGame')(app)
 require('./routes/createUser')(app)
 require('./routes/loginUser')(app)
 require('./routes/searchOpponent')(app)
+require('./routes/createNewGame')(app)
 
 // erreur 404 si aucunes route n'est trouvée
 app.use(({req, res}) => {

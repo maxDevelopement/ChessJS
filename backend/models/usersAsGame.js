@@ -22,7 +22,7 @@ const UsersAsGame = sequelize.define('userasgame', {
     },
     fkActualPlayer: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     user1Color: {
         type: DataTypes.STRING,

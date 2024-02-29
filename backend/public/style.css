@@ -27,6 +27,7 @@ body{
 }
 #chessBoardContainer{
     display: none;
+    background-color: blueviolet;
 }
 #homePageConnexionBt{
     display: none;
