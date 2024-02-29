@@ -1,5 +1,5 @@
 import createNewGameRequest from "../scripts/requests/createNewGameRequest.js"
-//import createNewGameRequest from "../scripts/requests/createNewGameRequest"
+
 export default class User{
     constructor(idUser, username){
         this.idUser = idUser,
@@ -14,5 +14,8 @@ export default class User{
         // RAJOUTER DANS ALLGAMESNOTFINISHED
         this.actualGame = newGame
         return newGame
+    }
+    async startNewGame(){
+        
     }
 }
