@@ -1,11 +1,11 @@
 import createNewGameRequest from "../scripts/requests/createNewGameRequest.js"
 
 export default class User{
-    constructor(idUser, username){
+    constructor(idUser, username, allGames){
         this.idUser = idUser,
         this.username = username,
-        this.allGamesNotFinished = []
-        this.actualGame
+        this.allGames = allGames || []
+        this.actualGame // idGame
     }
     // remplir allGamesNotFinished array
     async createNewGame(idOpponent, colorCreator){

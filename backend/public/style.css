@@ -100,5 +100,12 @@ body{
     border: 3px solid green;
     color: green;
     border-radius: 50px;
-
+}
+#continueGameForm{
+    display: none;
+}
+#allGamesContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

@@ -14,7 +14,6 @@ export default async function subscribeRequest(username, password){
         })
         if(request.ok){
             let result = await request.json() 
-            console.log(result)
             return result
         }else{
             console.log("insertion a failé")

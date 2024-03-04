@@ -5,4 +5,7 @@ export default class Game{
         this.idGame = idGame,
         this.myColor = myColor
     }
+    moveApiece(){
+        
+    }
 }

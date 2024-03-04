@@ -2,9 +2,11 @@
 import subscribeRequest from "./requests/subscribeRequest.js"
 import loginRequest from "./requests/loginRequest.js"
 import searchOpponentRequest from "./requests/searchOpponentRequest.js"
+import getAllGamesRequest from "./requests/getAllGamesRequest.js"
+//import startNewGame from "./gameGestion.js"
 // classes
 import User from "../publicClasses/user.js"
-import createNewGameRequest from "./requests/createNewGameRequest.js"
+import Game from "../publicClasses/game.js"
 
 const homePageConnexionBt = $('#homePageConnexionBt')
 // login
@@ -33,6 +35,11 @@ const btSearchOpponent = $('#btSearchOpponent')
 let showUsernameOpponent = $('#showUsernameOpponent')
 let searchedOpponent
 const btSendCreateGame = $('#btSendCreateGame')
+// continue game
+const continueGameForm = $('#continueGameForm')
+const btOpenContinueGameForm = $('#btOpenContinueGameForm')
+const btCancelContinueGame = $('#btCancelContinueGame')
+const allGamesContainer = $('#allGamesContainer')
 // game
 const chessBoardContainer = $('#chessBoardContainer')
 // ------------------------------------------------
@@ -149,13 +156,29 @@ btSendCreateGame.on('click', async () => {
     if(actualUser){
         const newGame = await actualUser.createNewGame(searchedOpponent.idUser, colorCreator)
         if(newGame.done){
-            closeDiv(createGameForm)
-            openDiv(chessBoardContainer, 'block')
+            console.log("new game : ", newGame)
+            const newGame = new Game()
         }
-    }    
+    }   
+    closeDiv(createGameForm)
+    openDiv(chessBoardContainer, 'block') 
 })
-// GAME GESTION 
-
+// CONTINUE GAME FORM
+btOpenContinueGameForm.on('click', async () => {
+    openDiv(continueGameForm, 'flex')
+    closeDiv(homePageUserConnected)
+    const user = await getUser()
+    console.log("all games of user : ", user)
+    const allGamesArray = user.allGames
+    allGamesContainer.empty()
+    allGamesArray.forEach((game) => {
+        showThisGameToContinue(game)
+    })
+})
+btCancelContinueGame.on('click', () => {
+    openDiv(homePageUserConnected, "flex")
+    closeDiv(continueGameForm)
+})
 
 // ------------------------------------------------
 // FUNCTIONS
@@ -176,19 +199,43 @@ function changeBorderColor(input, color){
     })
 }
 // fonction qui ouvre le menu principale une fois le user connecté
-function openConnexion(user){
+async function openConnexion(user){
     openDiv(homePageUserConnected, "flex")
     closeDiv(loginForm)
     closeDiv(subscribeForm)
     const actualUser = new User(user.idUser, user.username)  
-    console.log(actualUser)
     sessionStorage.setItem("user", JSON.stringify(actualUser))
 }
-function getUser(){
+async function getUser(){
     const stockedUser = JSON.parse(sessionStorage.getItem("user"))
-    const actualUser = new User(stockedUser.idUser, stockedUser.username)
+    const allGames = (await getAllGamesRequest(stockedUser.idUser)).allGames
+    const actualUser = new User(stockedUser.idUser, stockedUser.username, allGames)
     if(!stockedUser){
         return false
     }
     return actualUser
+}
+function showThisGameToContinue(data){
+    console.log("data : ", data.opponentUsername)
+    if(data.finished === false || data.finished === null){
+        const newDiv = $('<input>', {
+            type: 'submit',
+            class: 'continueGameBt',
+            value: `${data.opponentUsername} : ${data.createdAt}`,
+            click: () => openNewGame()
+        })
+        allGamesContainer.append(newDiv)
+    }
+}
+async function openNewGame(){
+    openDiv(chessBoardContainer, 'block')
+    closeDiv(createGameForm)
+    closeDiv(continueGameForm)
+    //const newGame = await startNewGame()
+    //console.log(newGame)
+}
+function openExistentGame(){
+    openDiv(chessBoardContainer, 'block')
+    closeDiv(createGameForm)
+    closeDiv(continueGameForm)
 }
