@@ -3,7 +3,6 @@ body{
 }
 
 #chessBoard{
-    display: none;
     flex-direction: column;
 }
 .line{

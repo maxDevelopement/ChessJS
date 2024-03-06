@@ -6,7 +6,8 @@ import getAllGamesRequest from "./requests/getAllGamesRequest.js"
 //import startNewGame from "./gameGestion.js"
 // classes
 import User from "../publicClasses/user.js"
-import Game from "../publicClasses/game.js"
+import userInGame from "../publicClasses/userInGame.js"
+import UserInGame from "../publicClasses/userInGame.js"
 
 const homePageConnexionBt = $('#homePageConnexionBt')
 // login
@@ -42,6 +43,7 @@ const btCancelContinueGame = $('#btCancelContinueGame')
 const allGamesContainer = $('#allGamesContainer')
 // game
 const chessBoardContainer = $('#chessBoardContainer')
+let chessBoard
 // ------------------------------------------------
 // EVENTS
 // ------------------------------------------------
@@ -123,7 +125,8 @@ btCancelCreateGame.on('click', () => {
 })
 btSearchOpponent.on('click', async () => {
     const usernameToSearch = inputUsernameOpponent.val()
-    const myUsername = getUser().username
+    const myUsername = (await getUser()).username
+    console.log("myUsername : ", myUsername)
     if(!usernameToSearch || usernameToSearch === myUsername){
         changeBorderColor(inputUsernameOpponent, "red")
         showUsernameOpponent.empty()
@@ -151,13 +154,18 @@ btSendCreateGame.on('click', async () => {
         return
     }
     const colorCreator = $('input[name=radioChooseYourColor]:checked').val()
-    console.log("color creator : ", colorCreator, ", idOpponent : ", searchedOpponent.idUser)
+    //console.log("color creator : ", colorCreator, ", idOpponent : ", searchedOpponent.idUser)
     const actualUser = await getUser()
     if(actualUser){
+        const user = await getUser()
         const newGame = await actualUser.createNewGame(searchedOpponent.idUser, colorCreator)
         if(newGame.done){
             console.log("new game : ", newGame)
-            const newGame = new Game()
+            const game = new UserInGame(user.idUser, newGame.data.idGame, newGame.data.actualBoard, newGame.data.userColor, newGame.data.opponentUsername)
+            user.actualGame = game
+            console.log("ACTUAL GAME : ", user.actualGame)
+            sessionStorage.setItem("user", JSON.stringify(user))
+            $(document).trigger('chessBoardInsertion');
         }
     }   
     closeDiv(createGameForm)

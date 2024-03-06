@@ -1,8 +1,11 @@
+const startNewGame = require('./playBoardGestion')
+
 const path = require('path')
+const fsPromises = require('fs').promises
 const fs = require('fs')
 const Game = require('../models/games')
 const UserAsGame = require('../models/usersAsGame')
-
+const User = require('../models/users')
 module.exports = (app) => {
     app.post('/api/createNewGame', async function (req, res){
         console.log("enter create game, body : ", req.body)
@@ -17,22 +20,20 @@ module.exports = (app) => {
             user2Color = 'white'
         }    
         // CREATION DU FICHIER
-        console.log("actual repertoire : ", path.join(__dirname, 'gamesFiles'))
         const timestamp = Date.now()
         const file = `${user1}_${timestamp}.json`
         const folderUrl = path.join(__dirname, 'gamesFiles')
         const fileUrl = path.join(folderUrl, file)
         const urlToDb = `gamesFiles/${file}`
+        const newGameArray = await startNewGame()
         if(!fs.existsSync(fileUrl)){
-            console.log("here")
-            fs.writeFileSync(fileUrl, "") // rajouter tableau de jeux complet
+            fs.writeFileSync(fileUrl, JSON.stringify(newGameArray)) // rajouter tableau de jeux complet
         }
         console.log("creation du fichier successfull : ", fileUrl)
         // CREATION NOUVEAU RECORD TABLE "GAME"
         const newGame = await Game.create({
             url: urlToDb
         })
-        console.log("newGame : ", newGame.dataValues)
         const idNewGame = newGame.dataValues.idGame
         if(idNewGame){
             console.log("data : ", user1, " , ", user2, " , ", idNewGame, " , ", user1Color, " , ", user2Color)
@@ -44,8 +45,19 @@ module.exports = (app) => {
                 user2Color: user2Color,
                 finished: false
             })
-            console.log("UserAsGame : ", createUserAsGame.dataValues)
-            return res.json({done: true, data: createUserAsGame.dataValues})
+            const json = await Game.findOne({where: {idGame: idNewGame}})
+            const url = path.join(__dirname, json.dataValues.url)
+            const jsonContent = JSON.parse(await fsPromises.readFile(url))
+            const opponentUsername = (await User.findOne({where: {idUser: user2}})).username
+            const dataToReturn = {
+                idUser: user1,
+                idGame: createUserAsGame.idUserAsGame,
+                actualBoard: jsonContent,
+                userColor: user1Color,
+                opponentUsername: opponentUsername
+            }
+            console.log("game created : ", dataToReturn)
+            return res.json({done: true, data: dataToReturn})
         }
     })
 }
