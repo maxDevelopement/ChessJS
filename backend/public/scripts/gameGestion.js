@@ -11,7 +11,7 @@ let chessBoardArray = [[], [], [], [], [], [], [], []]; // les cases du plateau
 let piecesOnBoard = []; // objets chessPiece qui se trouve sur le plateau de jeau
 let clickActif = false;
 let player;
-let chessBoard
+let chessBoard = $('#chessboard')
 
 //----------------------------------------------------------------------------
 // evenements
@@ -65,10 +65,11 @@ btStartNewGame.on('click', () => {
  $(document).on('chessBoardInsertion', async () => {
     chessBoard = $('<div>', {
         id: chessBoard
-    })
+    })/*
     chessBoard.css({
-        'display': 'flex'
-    })
+        'display': 'flex',
+        'flexDirection': 'column'
+    })*/
     chessBoardContainer.append(chessBoard)
     console.log("affichage playboard")
     const user = await getUser()
@@ -126,7 +127,7 @@ function showPossiblesMoves(arrayOfPossiblesMoves){
     console.log(chessBoardArray)
     arrayOfPossiblesMoves.forEach((move) => {
         console.log(move.x, move.y)
-        let possibleMove = chessBoardArray[move.y][move.x]
+        let possibleMove = chessBoardArray[move.x][move.y]
         console.log(possibleMove)
         possibleMove.css({
             "backgroundColor": "red"
@@ -152,11 +153,12 @@ function createPlayBoard(){
     console.log("createPlayBoard")
     for(let x = 0; x <= 7; x++){
         console.log("x")
-        let line = $('<div>');
+        let line = $('<div>', {
+            class: 'line'
+        });
         chessBoard.append(line);
         for(let y = 0; y <= 7; y++){
             console.log("y")
-            line.className = "line";
             let newCase;
             if(x % 2 === 0){
                 if(y % 2 !== 0){
@@ -182,13 +184,6 @@ function createCase(line, color){
     });
     line.append(oneCase);
     return oneCase;
-}
-
-function initiateUser(username, color){
-    player = {
-        username: username,
-        color: color
-    }
 }
 function selectPiece(x, y){
     const piece = piecesOnBoard.filter(piece => piece.xPosition === x && piece.yPosition === y);

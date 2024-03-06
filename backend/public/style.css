@@ -1,10 +1,6 @@
 body{
     background-color: aqua;
 }
-
-#chessBoard{
-    flex-direction: column;
-}
 .line{
     display: flex;
 }
