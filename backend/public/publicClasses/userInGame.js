@@ -3,7 +3,7 @@ export default class UserInGame{
         this.idUser = idUser,
         this.idGame = idGame,
         this.actualArray = actualArray,
-        this.userColor = userColor,
+        this.myColor = userColor,
         this.opponentUsername = opponentUsername
     }
     displayGame(){

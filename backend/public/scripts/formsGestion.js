@@ -30,6 +30,7 @@ const homePageUserConnected = $('#homePageUserConnected')
 // create game
 const createGameForm = $('#createGameForm')
 const btOpenCreateGameForm = $('#btOpenCreateGameForm')
+const btCancelChessBoard = $('#btCancelChessBoard')
 const btCancelCreateGame = $('#btCancelCreateGame')
 const inputUsernameOpponent = $('#inputUsernameOpponent')
 const btSearchOpponent = $('#btSearchOpponent')
@@ -121,6 +122,11 @@ btOpenCreateGameForm.on('click', () => {
 })
 btCancelCreateGame.on('click', () => {
     closeDiv(createGameForm)
+    openDiv(homePageUserConnected, "flex")
+})
+btCancelChessBoard.on('click', () => {
+    console.log("click")
+    closeDiv(chessBoard)
     openDiv(homePageUserConnected, "flex")
 })
 btSearchOpponent.on('click', async () => {

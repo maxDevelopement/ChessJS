@@ -10,7 +10,7 @@ const btStartNewGame = $('#btStartNewGame')
 let chessBoardArray = [[], [], [], [], [], [], [], []]; // les cases du plateau
 let piecesOnBoard = []; // objets chessPiece qui se trouve sur le plateau de jeau
 let clickActif = false;
-let player;
+let ws = undefined
 let chessBoard = $('#chessboard')
 
 //----------------------------------------------------------------------------
@@ -24,29 +24,33 @@ async function getUser(){
     console.log("check user : ", stockedUser)
     const allGames = (await getAllGamesRequest(stockedUser.idUser)).allGames
     const actualUser = new User(stockedUser.idUser, stockedUser.username, allGames)
-    const actualGame = new UserInGame(stockedUser.idUser, stockedUser.actualGame.idGame, stockedUser.actualGame.actualArray, stockedUser.actualGame.userColor, stockedUser.actualGame.opponentUsername)
+    const actualGame = new UserInGame(stockedUser.idUser, stockedUser.actualGame.idGame, stockedUser.actualGame.actualArray, stockedUser.actualGame.myColor, stockedUser.actualGame.opponentUsername)
     actualUser.actualGame = actualGame
+    //console.log("user au cick : ", actualUser)
     return actualUser
 }
 
-function clickCase(){
+async function clickCase(){
+    const user = await getUser()
+    const actualGame = user.actualGame
     // au click d'une case
     for(let x = 0; x <= 7; x++){
         for(let y = 0; y <= 7; y++){
-            const chessCase = chessBoardArray[x][y];
-            console.log("click chesscase : ", chessCase)
+            const chessCase = chessBoardArray[x][y]
+            //console.log("click chesscase : ", chessCase)
             chessCase.on('click', () => {
                 if(clickActif === false){
-                    console.log("clickActif : ", clickActif)
+                    console.log("clickActif : ", clickActif, ", myColor : ", actualGame.myColor)
                     console.log(x, y)
-                    const selectedPiece = selectPiece(x, y);
-                    console.log("selected div : ", selectedPiece)
-                    if(selectedPiece){
-                        console.log("moves possibles de la piece : ", selectedPiece.possiblesMoves);
-                        showPossiblesMoves(selectedPiece.possiblesMoves);
+                    const selectedPiece = selectPiece(x, y)
+                    if(selectedPiece && selectedPiece.color === actualGame.myColor){
+                        //console.log("moves possibles de la piece : ", selectedPiece.possiblesMoves)
+                        showPossiblesMoves(selectedPiece.possiblesMoves)
                         if(selectedPiece.possiblesMoves.length > 0){
                             clickActif = true;
                         }
+                    }else if(selectedPiece.color !== actualGame.myColor){
+                        console.log("mauvaise couleur")
                     }
                 }
                 else{
@@ -65,18 +69,15 @@ btStartNewGame.on('click', () => {
  $(document).on('chessBoardInsertion', async () => {
     chessBoard = $('<div>', {
         id: chessBoard
-    })/*
-    chessBoard.css({
-        'display': 'flex',
-        'flexDirection': 'column'
-    })*/
+    })
     chessBoardContainer.append(chessBoard)
-    console.log("affichage playboard")
+    console.log("connexion to socket")
+    socketConnect()
     const user = await getUser()
     createPlayBoard();
     clickCase();
     const playBoard = user.actualGame.actualArray
-    console.log("resultat playboard : ", playBoard);
+    //console.log("resultat playboard : ", playBoard);
     piecesOnBoard = playBoard;
     updateGameImg();
  })
@@ -97,7 +98,7 @@ async function startNewGame(playerColor, opponent){
         createPlayBoard();
         clickCase();
         const playBoard = await request.json()
-        console.log("resultat playboard : ", playBoard);
+        //console.log("resultat playboard : ", playBoard);
         piecesOnBoard = playBoard.playBoard;
         updateGameImg();
    }
@@ -111,7 +112,7 @@ async function startNewGame(playerColor, opponent){
 function updateGameImg(){
     console.log("array : ", chessBoardArray)
     piecesOnBoard.forEach((piece) => {  
-        console.log("piece : ", piece)      
+        //console.log("piece : ", piece)      
         const coordX = piece.xPosition;
         const coordY = piece.yPosition;
         const chessCase = chessBoardArray[coordX][coordY];
@@ -126,9 +127,9 @@ function updateGameImg(){
 function showPossiblesMoves(arrayOfPossiblesMoves){
     console.log(chessBoardArray)
     arrayOfPossiblesMoves.forEach((move) => {
-        console.log(move.x, move.y)
+        //console.log(move.x, move.y)
         let possibleMove = chessBoardArray[move.x][move.y]
-        console.log(possibleMove)
+        //console.log(possibleMove)
         possibleMove.css({
             "backgroundColor": "red"
         })
@@ -139,7 +140,7 @@ function cleanMovements(){
     console.log("clean moves !")
     const blackCases = Array.from($('.black'));
     const whiteCases = Array.from($('.white'));
-    console.log(blackCases, whiteCases)
+    //console.log(blackCases, whiteCases)
     blackCases.forEach((caseItem) => {
         caseItem.style.backgroundColor = "black";
     })
@@ -152,13 +153,13 @@ function cleanMovements(){
 function createPlayBoard(){
     console.log("createPlayBoard")
     for(let x = 0; x <= 7; x++){
-        console.log("x")
+        //console.log("x")
         let line = $('<div>', {
             class: 'line'
         });
         chessBoard.append(line);
         for(let y = 0; y <= 7; y++){
-            console.log("y")
+            //console.log("y")
             let newCase;
             if(x % 2 === 0){
                 if(y % 2 !== 0){
@@ -187,8 +188,59 @@ function createCase(line, color){
 }
 function selectPiece(x, y){
     const piece = piecesOnBoard.filter(piece => piece.xPosition === x && piece.yPosition === y);
-        if(piece[0]){
-            console.log(piece[0])
-            return piece[0];
-        }
+    if(piece[0]){
+        //console.log(piece[0])
+        return piece[0];
+    }
 }
+
+// ------------------------------------------------------------
+// WEB SOCKET
+// ------------------------------------------------------------
+
+export default function socketConnect(){
+    console.log("socket co")
+    if (!ws || ws.readyState === WebSocket.CLOSED) {
+        console.log("1erconnexion")
+        try{
+            ws =  new WebSocket(`ws://localhost:7071`)
+        }catch(error){
+            console.log(error)
+        }
+        ws.onopen = () => {
+            console.log("connected to socket !")
+        }
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data)
+            if(data.type === "connexionMessage"){
+                
+            }
+            if(data.type === "sendMessage"){
+
+            }   
+        } 
+    }
+    function sendMessage(type){ // 'sendMessage'
+        const data = {
+            sender: sessionStorage.getItem("username"),
+            message: userMessage.value,
+            conversationId: sessionStorage.getItem("actualConversation")
+        }
+        console.log(data.conversationId)
+        if(ws){
+            ws.send(JSON.stringify({type: type, sender: data.sourceUsername, message: data.message, conversationId: data.conversationId}));
+        }
+    } 
+}
+
+function sendMessage(type){ // 'sendMessage'
+    const data = {
+        sender: sessionStorage.getItem("username"),
+        message: userMessage.value,
+        conversationId: sessionStorage.getItem("actualConversation")
+    }
+    console.log(data.conversationId)
+    if(ws){
+        ws.send(JSON.stringify({type: type, sender: data.sourceUsername, message: data.message, conversationId: data.conversationId}));
+    }
+} 
