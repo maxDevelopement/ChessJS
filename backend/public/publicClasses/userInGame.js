@@ -6,7 +6,4 @@ export default class UserInGame{
         this.myColor = userColor,
         this.opponentUsername = opponentUsername
     }
-    displayGame(){
-
-    }
 }

@@ -12,6 +12,7 @@ let piecesOnBoard = []; // objets chessPiece qui se trouve sur le plateau de jea
 let clickActif = false;
 let ws = undefined
 let chessBoard = $('#chessboard')
+const isOpponentConnected = $('#isOpponentConnected')
 
 //----------------------------------------------------------------------------
 // evenements
@@ -72,14 +73,17 @@ btStartNewGame.on('click', () => {
     })
     chessBoardContainer.append(chessBoard)
     console.log("connexion to socket")
-    socketConnect()
     const user = await getUser()
-    createPlayBoard();
-    clickCase();
+    const actualGame = user.actualGame
+    await createPlayBoard()
+    clickCase()
     const playBoard = user.actualGame.actualArray
     //console.log("resultat playboard : ", playBoard);
-    piecesOnBoard = playBoard;
-    updateGameImg();
+    piecesOnBoard = playBoard
+    updateGameImg()
+    socketConnect().then(() => {
+        sendConnexionMessage(actualGame.idUser, actualGame.myColor, actualGame.idGame)
+    })
  })
 //----------------------------------------------------------------------------
 // requêtes fetch
@@ -87,19 +91,19 @@ btStartNewGame.on('click', () => {
 
 async function startNewGame(playerColor, opponent){
     console.log("start new game !")
-    const request = await fetch(`http://10.229.32.215:3000/api/startNewGame?playerColor=${playerColor}&playerOpponent=${opponent}`, {
+    const request = await fetch(`http://192.168.1.108:3000/api/startNewGame?playerColor=${playerColor}&playerOpponent=${opponent}`, {
     method: 'Get',
     headers: {
         'Content-Type': 'application/json'
     }
    }) 
-   if(request.ok){
+   if(request.ok){                                  
         console.log("request ok")
         createPlayBoard();
         clickCase();
-        const playBoard = await request.json()
+        const response = await request.json()
         //console.log("resultat playboard : ", playBoard);
-        piecesOnBoard = playBoard.playBoard;
+        piecesOnBoard = response.playBoard;
         updateGameImg();
    }
 }
@@ -199,39 +203,52 @@ function selectPiece(x, y){
 // ------------------------------------------------------------
 
 export default function socketConnect(){
-    console.log("socket co")
-    if (!ws || ws.readyState === WebSocket.CLOSED) {
-        console.log("1erconnexion")
-        try{
+    return new Promise((resolve, reject) => {
+        if (!ws || ws.readyState === WebSocket.CLOSED) {
+            console.log("1erconnexion")
             ws =  new WebSocket(`ws://localhost:7071`)
-        }catch(error){
-            console.log(error)
-        }
-        ws.onopen = () => {
-            console.log("connected to socket !")
-        }
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-            if(data.type === "connexionMessage"){
-                
+            ws.onopen = () => {
+                console.log("connected to socket !")
+                isOpponentConnected.css({'display': 'block'})
+                resolve()
             }
-            if(data.type === "sendMessage"){
+            ws.onmessage = (event) => {
+                //const data = JSON.parse(event.data)
+                console.log("RECEPTION MESSAGE : ", event.data)
+                /*if(data.playerConnected === 2){ isOpponentConnected.css({ 'backgroundColor': 'green' })
+                }else{
+                    isOpponentConnected.css({ 'backgroundColor': 'red' })
+                }
+                if(data.type === "connexion"){
+                    
+                }
+                if(data.type === "pieceMoving"){
 
-            }   
-        } 
-    }
-    function sendMessage(type){ // 'sendMessage'
-        const data = {
-            sender: sessionStorage.getItem("username"),
-            message: userMessage.value,
-            conversationId: sessionStorage.getItem("actualConversation")
+                }   */
+
+            }
+            
+        }else{
+            resolve()
         }
-        console.log(data.conversationId)
-        if(ws){
-            ws.send(JSON.stringify({type: type, sender: data.sourceUsername, message: data.message, conversationId: data.conversationId}));
-        }
-    } 
+    })
 }
+function sendConnexionMessage(idUser, color, idGame){ // 'sendMessage'
+    console.log("sendConnexionMessage")
+    const data = {
+        type: 'connexion',
+        player: {
+            idUser: idUser,
+            color: color
+        },            
+        game: idGame
+    }
+    if(ws && ws.readyState === WebSocket.OPEN){
+        ws.send(JSON.stringify(data));
+    }else{
+        console.log("ws non connecté encore")
+    }
+} 
 
 function sendMessage(type){ // 'sendMessage'
     const data = {

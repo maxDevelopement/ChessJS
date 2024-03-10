@@ -5,7 +5,6 @@ const User = require('../models/users')
 module.exports = (app) => {
     app.get('/api/getAllGamesOfUser', async function (req, res){
         const idUser = req.query.idUser
-        console.log("enter get all games : ", idUser)
         const allGamesRequest = await UsersAsGame.findAll({
             where: {
                 [Op.or]: [
@@ -27,8 +26,7 @@ module.exports = (app) => {
             // rajouter le code qui va chercher les data JSON 
             return gameData
         }))
-
-        console.log("data to return : ", allGames)
+        //console.log("data to return : ", allGames)
         return res.json({allGames: allGames})
     })
 }

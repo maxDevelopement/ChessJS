@@ -11,10 +11,11 @@
     "fs": "^0.0.1-security",
     "mariadb": "^3.2.3",
     "path": "^0.12.7",
-    "sequelize": "^6.37.1"
+    "sequelize": "^6.37.1",
+    "ws": "^8.16.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon  backend/app.js"
+    "start": "node backend/app.js"
   }
 }

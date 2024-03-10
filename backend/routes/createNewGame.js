@@ -41,6 +41,7 @@ module.exports = (app) => {
                 fkUser1: user1,
                 fkUser2: user2,
                 fkGame: idNewGame,
+                colorTurn: 'white',
                 user1Color: user1Color,
                 user2Color: user2Color,
                 finished: false

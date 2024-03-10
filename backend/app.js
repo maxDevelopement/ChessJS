@@ -18,6 +18,7 @@ initDb()
 app.use(cors())
 app.use(bodyParser.json())
 
+require('./ws')(app)
 require('./routes/startNewGame')(app)
 require('./routes/createUser')(app)
 require('./routes/loginUser')(app)
