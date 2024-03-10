@@ -167,11 +167,7 @@ btSendCreateGame.on('click', async () => {
         const newGame = await actualUser.createNewGame(searchedOpponent.idUser, colorCreator)
         if(newGame.done){
             console.log("new game : ", newGame)
-            const game = new UserInGame(user.idUser, newGame.data.idGame, newGame.data.actualBoard, newGame.data.userColor, newGame.data.opponentUsername)
-            user.actualGame = game
-            console.log("ACTUAL GAME : ", user.actualGame)
-            sessionStorage.setItem("user", JSON.stringify(user))
-            $(document).trigger('chessBoardInsertion');
+            openExistentGame(newGame, user)
         }
     }   
     closeDiv(createGameForm)
@@ -186,7 +182,7 @@ btOpenContinueGameForm.on('click', async () => {
     const allGamesArray = user.allGames
     allGamesContainer.empty()
     allGamesArray.forEach((game) => {
-        showThisGameToContinue(game)
+        showThisGameToContinue(game, user)
     })
 })
 btCancelContinueGame.on('click', () => {
@@ -229,14 +225,13 @@ async function getUser(){
     }
     return actualUser
 }
-function showThisGameToContinue(data){
-    console.log("data : ", data.opponentUsername)
+function showThisGameToContinue(data, user){
     if(data.finished === false || data.finished === null){
         const newDiv = $('<input>', {
             type: 'submit',
             class: 'continueGameBt',
             value: `${data.opponentUsername} : ${data.createdAt}`,
-            click: () => openNewGame()
+            click: () => openExistentGame(data, user)
         })
         allGamesContainer.append(newDiv)
     }
@@ -245,11 +240,29 @@ async function openNewGame(){
     openDiv(chessBoardContainer, 'block')
     closeDiv(createGameForm)
     closeDiv(continueGameForm)
-    //const newGame = await startNewGame()
-    //console.log(newGame)
 }
-function openExistentGame(){
+async function openExistentGame(newGame, user){
+    console.log("OPEN GAME : ", newGame)
+    const game = new UserInGame(user.idUser, newGame.idGame, newGame.actualBoard, newGame.userColor, newGame.opponentUsername)
+    user.actualGame = game
+    console.log("ACTUAL GAME : ", user.actualGame)
+    sessionStorage.setItem("user", JSON.stringify(user))
+    $(document).trigger('chessBoardInsertion')
     openDiv(chessBoardContainer, 'block')
     closeDiv(createGameForm)
     closeDiv(continueGameForm)
+
+
+    /*
+    console.log("existent game : ", newGame)
+    openDiv(chessBoardContainer, 'block')
+    closeDiv(createGameForm)
+    closeDiv(continueGameForm)
+    const user = await getUser()
+    const game = user.continueGame(newGame)
+    const actualGame = new UserInGame(user.idUser, game.idGame, game.actualBoard, game.userColor, game.opponentUsername)
+    user.actualGame = actualGame
+    console.log("ACTUAL GAME : ", user.actualGame)
+    sessionStorage.setItem("user", JSON.stringify(user))
+    $(document).trigger('chessBoardInsertion')*/
 }

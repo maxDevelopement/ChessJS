@@ -15,7 +15,8 @@ export default class User{
         this.actualGame = newGame
         return newGame
     }
-    async startNewGame(){
-        
+    async continueGame(game){
+        this.actualGame = game
+        return { done: true, data: game }
     }
 }
