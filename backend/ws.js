@@ -13,48 +13,79 @@ module.exports = function setupWsServer(app){
             const clientData = JSON.parse(data)   
             console.log("clientdata : ", clientData)
             const idGame = clientData.game  
-            const user = {
-                ws: ws,
-                idUser: clientData.player.idUser,       
-                color: clientData.player.color
-            }
             //console.log("idGame : ", idGame, ", user : ", user)
             //removeClientFromAllChannels(ws)
             switch(clientData.type){
-                case 'connexion': {  
-                    console.log("games0 : ", games)   
+                case 'connexion': { 
+                    const user = {
+                        ws: ws,
+                        idUser: clientData.player.idUser,       
+                        color: clientData.player.color
+                    } 
+                    //console.log("games0 : ", games)   
                     players.push(user)
-                    const colorTurn = (await UserAsGame.findOne({where: { fkGame: idGame }})).dataValues.colorTurn
-                    let game = games.filter((game) => game.idGame === idGame)
-                    if(!game.idGame){
-                        game = {
+                    const colorTurnReq = (await UserAsGame.findOne({where: { fkGame: idGame }}))
+                    let colorTurn = null
+                    if(colorTurnReq){
+                        colorTurn = colorTurnReq.dataValues.colorTurn
+                    }                    
+                    console.log("games0 : ", games)
+                    let gameExist = games.find((game) => game.idGame === idGame)
+                    console.log("Channel trouvée : ", gameExist)
+                    if(!gameExist){
+                        console.log("channel doesnt exist")
+                        gameExist = {
                             idGame: idGame,
                             players: []
                         }
-                        games.push(game)
-                        console.log("games1 : ", games)
+                        games.push(gameExist)
+                        console.log("games1 (creation new channel): ", games)
                     }
+                    console.log("tentative ajout user dans players : ", gameExist.players)
+                    gameExist.players.push(user)
                     console.log("games2 : ", games)
-                    game.players.push(user)
+
                     const dataToRespond = {
                         type: "connexion",
-                        playerConnected: game.length,
+                        playerConnected: gameExist.players.length,
                         colorTurn: colorTurn
-                    }
-                    console.log("games3 : ", game.players.length)
-                    responseToPlayers(game.players, dataToRespond)
+                    }      
+                    //console.log("players : ", game.players)
+                    console.log("data to respond : ", dataToRespond)
+                    responseToPlayers(gameExist.players, dataToRespond)
                     break
-                }
+                }/*
+                case 'disconnexion': {
+                    const userId = clientData.player
+                    let gameExist = games.find((game) => game.idGame === idGame)
+                    let locateUserInGame = gameExist.players.find((user) => user.idUser === userId)
+                    gameExist.players.remove(locateUserInGame)
+                    const dataToRespond = {
+                        type: "disconnexion",
+                        playerConnected: 1,
+                        colorTurn: colorTurn
+                    }  
+                    responseToPlayers(gameExist.players, dataToRespond)
+                    break
+                }*/
                 case 'pieceMoving': {
                     console.log('pieceMoving')
                     break 
                 }
             }    
         })                                                      
-        ws.on('close', () => {
-            console.log("socket closed")
+        ws.onclose = () => {
+            const userWs = ws
+            let locateGame = games.find((game) => { 
+                const playerIndex = game.players.findIndex(player => player.ws === userWs)
+                if(playerIndex !== -1){
+                    game.players.splice(playerIndex, 1)
+                }
+                responseToPlayers(game.players, {playerConnected: 1})
+            })
+            console.log("locatedGame : ", locateGame)
             clients.delete(ws)
-        })        
+        }       
     })
 }
 

@@ -14,7 +14,6 @@ class ChessPiece{
         this.img = setImg(value);
     }
     setImg(value){
-        console.log("value ", value)
         switch(value){
             case "black": {
               return `./img/black/${this.grade}.png`;

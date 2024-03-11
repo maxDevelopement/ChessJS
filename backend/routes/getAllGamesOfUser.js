@@ -1,6 +1,9 @@
 const { Op } = require('sequelize')
+const path = require('path')
 const UsersAsGame = require('../models/usersAsGame')
 const User = require('../models/users')
+const Game = require('../models/games')
+const fsPromises = require('fs').promises
 
 module.exports = (app) => {
     app.get('/api/getAllGamesOfUser', async function (req, res){
@@ -17,12 +20,18 @@ module.exports = (app) => {
             return res.json({length: 0})
         }
         const allGames = await Promise.all(allGamesRequest.map(async (game) => {  
-            const gameData = game.dataValues
-            const getOpponentUsername = await User.findOne({where: { idUser : gameData.fkUser2}})
+            const fileOfGame = (await Game.findOne({where: {idGame: game.fkGame}})).dataValues.url
+            const url = path.join(__dirname, fileOfGame)
+            const jsonContent = JSON.parse(await fsPromises.readFile(url))
+            const gameData = {
+                data: game.dataValues,
+                array: jsonContent
+            }
+            const getOpponentUsername = await User.findOne({where: { idUser : gameData.data.fkUser2}})
             if(!getOpponentUsername){
                 return
             }
-            gameData.opponentUsername = getOpponentUsername.dataValues.username
+            gameData.data.opponentUsername = getOpponentUsername.dataValues.username
             // rajouter le code qui va chercher les data JSON 
             return gameData
         }))

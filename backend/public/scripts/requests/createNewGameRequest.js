@@ -1,5 +1,6 @@
 // user1 = createur de la partie
 export default async function createNewGameRequest(user1,user2, colorCreator){
+    console.log("createnewgame request !")
     try{
         let data = {
             user1: user1,

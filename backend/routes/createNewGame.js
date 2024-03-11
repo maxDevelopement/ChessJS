@@ -8,7 +8,7 @@ const UserAsGame = require('../models/usersAsGame')
 const User = require('../models/users')
 module.exports = (app) => {
     app.post('/api/createNewGame', async function (req, res){
-        console.log("enter create game, body : ", req.body)
+        //console.log("enter create game, body : ", req.body)
         // recupération des données et affectation des couleurs
         const user1 = req.body.user1 // createur de la partie
         const user2 = req.body.user2
@@ -29,14 +29,14 @@ module.exports = (app) => {
         if(!fs.existsSync(fileUrl)){
             fs.writeFileSync(fileUrl, JSON.stringify(newGameArray)) // rajouter tableau de jeux complet
         }
-        console.log("creation du fichier successfull : ", fileUrl)
+        //console.log("creation du fichier successfull : ", fileUrl)
         // CREATION NOUVEAU RECORD TABLE "GAME"
         const newGame = await Game.create({
             url: urlToDb
         })
         const idNewGame = newGame.dataValues.idGame
         if(idNewGame){
-            console.log("data : ", user1, " , ", user2, " , ", idNewGame, " , ", user1Color, " , ", user2Color)
+            //console.log("data : ", user1, " , ", user2, " , ", idNewGame, " , ", user1Color, " , ", user2Color)
             const createUserAsGame = await UserAsGame.create({
                 fkUser1: user1,
                 fkUser2: user2,
@@ -57,7 +57,7 @@ module.exports = (app) => {
                 userColor: user1Color,
                 opponentUsername: opponentUsername
             }
-            console.log("game created : ", dataToReturn)
+            //console.log("game created : ", dataToReturn)
             return res.json({done: true, data: dataToReturn})
         }
     })
