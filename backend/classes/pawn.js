@@ -7,24 +7,48 @@ class Pawn extends ChessPiece{
     }
     calculMove(actualBoard){
         console.log("xPosition : ", this.xPosition)
-        const pawnMove = [
-            {
-                x: this.xPosition - 1,
-                y: this.yPosition - 1
-            },
-            {
-                x: this.xPosition - 1,
-                y: this.yPosition
-            },
-            {
-                x: this.xPosition - 1,
-                y: this.yPosition + 1
-            },
-            {
-                x: this.xPosition - 2,
-                y: this.yPosition 
-            }
-        ]
+        let pawnMove
+        if(this.color === 'white'){
+            pawnMove = [
+                {
+                    x: this.xPosition - 1,
+                    y: this.yPosition - 1
+                },
+                {
+                    x: this.xPosition - 1,
+                    y: this.yPosition
+                },
+                {
+                    x: this.xPosition - 1,
+                    y: this.yPosition + 1
+                },
+                {
+                    x: this.xPosition - 2,
+                    y: this.yPosition 
+                }
+            ]
+        }else if(this.color === 'black'){
+            pawnMove = [
+                {
+                    x: this.xPosition + 1,
+                    y: this.yPosition + 1
+                },
+                {
+                    x: this.xPosition + 1,
+                    y: this.yPosition
+                },
+                {
+                    x: this.xPosition + 1,
+                    y: this.yPosition - 1
+                },
+                {
+                    x: this.xPosition + 2,
+                    y: this.yPosition 
+                }
+            ]
+        }else{
+            console.log("color non-définie : ", this.color)
+        }
         const leftCaseExist = this.doCaseExist(pawnMove[0].x, pawnMove[0].y)
         if(leftCaseExist){
             const caseToCheck = actualBoard.find((oneCase) => oneCase.xPosition === pawnMove[0].x && oneCase.yPosition === pawnMove[0].y)
@@ -43,7 +67,18 @@ class Pawn extends ChessPiece{
                     x: pawnMove[1].x,
                     y: pawnMove[1].y
                 })
-                if(this.xPosition === 6){
+                if(this.color === 'white' && this.xPosition === 6){
+                    console.log("pawn case + 2 trouvée ")
+                    const secondCaseToCheck = actualBoard.find((oneCase) => oneCase.xPosition === pawnMove[3].x && oneCase.yPosition === pawnMove[3].y)
+                    console.log("case : ", secondCaseToCheck)
+                    if(secondCaseToCheck && secondCaseToCheck.color === "none"){
+                        this.possiblesMoves.push({ // insertion deuxième case (uniquement premier coup du pion)
+                            x: pawnMove[3].x,
+                            y: pawnMove[3].y
+                        })
+                    }
+                }
+                else if(this.color === 'black' && this.xPosition === 1){
                     console.log("pawn case + 2 trouvée ")
                     const secondCaseToCheck = actualBoard.find((oneCase) => oneCase.xPosition === pawnMove[3].x && oneCase.yPosition === pawnMove[3].y)
                     console.log("case : ", secondCaseToCheck)

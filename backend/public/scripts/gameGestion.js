@@ -5,11 +5,13 @@ import UserInGame from "../publicClasses/userInGame.js"
 // déclaration des variables
 //----------------------------------------------------------------------------
 const chessBoardContainer = $('#chessBoardContainer')
-
+const btCancelChessBoard = $('#btCancelChessBoard')
 const btStartNewGame = $('#btStartNewGame')
 let chessBoardArray = [[], [], [], [], [], [], [], []]; // les cases du plateau
 let piecesOnBoard = []; // objets chessPiece qui se trouve sur le plateau de jeau
 let clickActif = false;
+let selectedPieceToMove
+let colorTurn = 'white'
 let ws = undefined
 let chessBoard = $('#chessboard')
 const isOpponentConnected = $('#isOpponentConnected')
@@ -17,6 +19,13 @@ const isOpponentConnected = $('#isOpponentConnected')
 //----------------------------------------------------------------------------
 // evenements
 //----------------------------------------------------------------------------
+
+btCancelChessBoard.on('click', () => {
+    if(ws && ws.readyState === WebSocket.OPEN){
+        ws.close()
+    }
+})
+
 async function getUser(){
     const stockedUser = JSON.parse(sessionStorage.getItem("user"))
     if(!stockedUser){
@@ -33,6 +42,13 @@ async function getUser(){
     return actualUser
 }
 
+function selectPiece(x, y){
+    const piece = piecesOnBoard.find(piece => piece.xPosition === x && piece.yPosition === y);
+    if(piece){
+        return piece;
+    }
+}
+
 async function clickCase(){
     const user = await getUser()
     const actualGame = user.actualGame
@@ -40,34 +56,44 @@ async function clickCase(){
     for(let x = 0; x <= 7; x++){
         for(let y = 0; y <= 7; y++){
             const chessCase = chessBoardArray[x][y]
-            ////console.log("click chesscase : ", chessCase)
-            chessCase.on('click', () => {
+            chessCase.on('click', async() => {
+                const selectedPiece = selectPiece(x, y)
+                console.log("selected piece : ", selectedPiece)
                 if(clickActif === false){
-                    //console.log("clickActif : ", clickActif, ", myColor : ", actualGame.myColor)
-                    //console.log(x, y)
-                    const selectedPiece = selectPiece(x, y)
-                    if(selectedPiece && selectedPiece.color === actualGame.myColor){
-                        ////console.log("moves possibles de la piece : ", selectedPiece.possiblesMoves)
+                    if(selectedPiece && selectedPiece.color === actualGame.myColor && actualGame.myColor === colorTurn){
+                        selectedPieceToMove = selectedPiece
                         showPossiblesMoves(selectedPiece.possiblesMoves)
                         if(selectedPiece.possiblesMoves.length > 0){
-                            clickActif = true;
+                            clickActif = true
                         }
                     }else if(selectedPiece.color !== actualGame.myColor){
-                        //console.log("mauvaise couleur")
                     }
-                }
-                else{
-                    cleanMovements();
-                    clickActif = false;
+                }else if(clickActif === true){
+                    const isDeplacementValid = selectedPieceToMove.possiblesMoves.find((caseItem) => caseItem.x === selectedPiece.xPosition && caseItem.y === selectedPiece.yPosition)
+                    if(!isDeplacementValid){
+                        selectedPieceToMove = null
+                        cleanMovements()
+                        clickActif = false
+                        return
+                    }else if(isDeplacementValid){
+                        const user = await getUser()
+                        const actualGame = user.actualGame
+                        let sourceCase = selectedPieceToMove
+                        let destinationCase = selectedPiece
+                        destinationCase.color = sourceCase.color
+                        destinationCase.grade = sourceCase.grade
+                        sourceCase.color = 'none'
+                        sourceCase.grade = 'empty'
+                        console.log("après déplacement : ", piecesOnBoard)
+                        sendPieceMovingMessage(piecesOnBoard, actualGame.idGame, colorTurn)
+                        cleanMovements()
+                        clickActif = false
+                    }
                 }
             })
         }
     }    
 }
-
-btStartNewGame.on('click', () => {
-    startNewGame("black", "max2");
- })
 
  $(document).on('chessBoardInsertion', async () => {
     chessBoard = $('<div>', {
@@ -88,40 +114,14 @@ btStartNewGame.on('click', () => {
         sendConnexionMessage(actualGame.idUser, actualGame.myColor, actualGame.idGame)
     })
  })
-//----------------------------------------------------------------------------
-// requêtes fetch
-//----------------------------------------------------------------------------
-/*
-async function startNewGame(playerColor, opponent){
-    //console.log("start new game !")
-    const request = await fetch(`http://192.168.1.108:3000/api/startNewGame?playerColor=${playerColor}&playerOpponent=${opponent}`, {
-    method: 'Get',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-   }) 
-   if(request.ok){                                  
-        const game = await request.json()
-        console.log("game0 : ", game) 
-        openGame(game)
-   }
-}
 
-function openGame(game){
-    console.log("game1 : ", game)
-    createPlayBoard();
-    clickCase();
-    piecesOnBoard = game.playBoard
-    updateGameImg()
-}
-*/
 //----------------------------------------------------------------------------
 // fonctions
 //----------------------------------------------------------------------------
 
 // mise a jour de l'affichage 
 function updateGameImg(){
-    //console.log("array : ", chessBoardArray)
+    console.log("array update img : ", piecesOnBoard)
     piecesOnBoard.forEach((piece) => {  
         ////console.log("piece : ", piece)      
         const coordX = piece.xPosition;
@@ -136,11 +136,8 @@ function updateGameImg(){
 }
 
 function showPossiblesMoves(arrayOfPossiblesMoves){
-    //console.log(chessBoardArray)
     arrayOfPossiblesMoves.forEach((move) => {
-        ////console.log(move.x, move.y)
         let possibleMove = chessBoardArray[move.x][move.y]
-        ////console.log(possibleMove)
         possibleMove.css({
             "backgroundColor": "red"
         })
@@ -148,29 +145,24 @@ function showPossiblesMoves(arrayOfPossiblesMoves){
 }
 
 function cleanMovements(){
-    //console.log("clean moves !")
-    const blackCases = Array.from($('.black'));
-    const whiteCases = Array.from($('.white'));
-    ////console.log(blackCases, whiteCases)
+    const blackCases = Array.from($('.black'))
+    const whiteCases = Array.from($('.white'))
     blackCases.forEach((caseItem) => {
-        caseItem.style.backgroundColor = "black";
+        caseItem.style.backgroundColor = "black"
     })
     whiteCases.forEach((caseItem) => {
-        caseItem.style.backgroundColor = "white";
+        caseItem.style.backgroundColor = "white"
     });
 }
 
 // creation du tableau de jeu vide
 function createPlayBoard(){
-    console.log("createPlayBoard")
     for(let x = 0; x <= 7; x++){
-        ////console.log("x")
         let line = $('<div>', {
             class: 'line'
         });
         chessBoard.append(line);
         for(let y = 0; y <= 7; y++){
-            ////console.log("y")
             let newCase;
             if(x % 2 === 0){
                 if(y % 2 !== 0){
@@ -197,13 +189,6 @@ function createCase(line, color){
     line.append(oneCase);
     return oneCase;
 }
-function selectPiece(x, y){
-    const piece = piecesOnBoard.filter(piece => piece.xPosition === x && piece.yPosition === y);
-    if(piece[0]){
-        ////console.log(piece[0])
-        return piece[0];
-    }
-}
 
 // ------------------------------------------------------------
 // WEB SOCKET
@@ -222,9 +207,16 @@ export default function socketConnect(){
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
                 console.log("RECEPTION MESSAGE : ", data)
-                console.log("playerConnected : ", data.playerConnected)
-                if(data.playerConnected === 2){ isOpponentConnected.css({ 'backgroundColor': 'green' })
-                }else{ isOpponentConnected.css({ 'backgroundColor': 'red' })}  
+                if(data.type === 'connexion' || data.type === 'disconnexion'){
+                    if(data.playerConnected === 2){ isOpponentConnected.css({ 'backgroundColor': 'green' })
+                    }else{ isOpponentConnected.css({ 'backgroundColor': 'red' })} 
+                }
+                if(data.type === 'pieceMoving'){
+                    colorTurn = data.colorTurn
+                    piecesOnBoard = data.playboard
+                    updateGameImg()
+                } 
+                clickActif = false
             }         
         }else{
             resolve()
@@ -247,29 +239,15 @@ function sendConnexionMessage(idUser, color, idGame){ // 'sendMessage'
     }else{
         //console.log("ws non connecté encore")
     }
-} 
-async function sendDisconnexionMessage(){ // 'sendMessage'
-    const user = await getUser()
-    const actualGame = user.actualGame
+}
+function sendPieceMovingMessage(playboard, idGame, colorTurn){ // 'sendMessage'
     const data = {
-        type: 'disconnexion',
-        player: user.idUser,            
-        idGame: actualGame.idGame
+        type: 'pieceMoving',
+        game: idGame,
+        playboard: playboard,
+        colorTurn: colorTurn
     }
     if(ws && ws.readyState === WebSocket.OPEN){
         ws.send(JSON.stringify(data));
-    }else{
-        //console.log("ws non connecté encore")
-    }
-} 
-function sendMessage(type){ // 'sendMessage'
-    const data = {
-        sender: sessionStorage.getItem("username"),
-        message: userMessage.value,
-        conversationId: sessionStorage.getItem("actualConversation")
-    }
-    //console.log(data.conversationId)
-    if(ws){
-        ws.send(JSON.stringify({type: type, sender: data.sourceUsername, message: data.message, conversationId: data.conversationId}));
     }
 } 

@@ -21,6 +21,7 @@ class Rook extends ChessPiece{
                             x: this.xPosition - coord,
                             y: this.yPosition
                         })
+                        northLineStillAvailable = false
                     }else{
                         northLineStillAvailable = false
                     }
@@ -38,6 +39,7 @@ class Rook extends ChessPiece{
                             x: this.xPosition,
                             y: this.yPosition + coord
                         })
+                        eastLineStillAvailable = false
                     }else{
                         eastLineStillAvailable = false
                     }
@@ -55,6 +57,7 @@ class Rook extends ChessPiece{
                             x: this.xPosition + coord,
                             y: this.yPosition
                         })
+                        southLineStillAvailable = false
                     }else{
                         southLineStillAvailable = false
                     }                    
@@ -72,6 +75,7 @@ class Rook extends ChessPiece{
                             x: this.xPosition,
                             y: this.yPosition - coord
                         })
+                        westLineStillAvailable = false
                     }else{
                         westLineStillAvailable = false
                     }      

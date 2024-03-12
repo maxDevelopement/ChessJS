@@ -125,7 +125,7 @@ btCancelCreateGame.on('click', () => {
 })
 btCancelChessBoard.on('click', () => {
     //////console.log("click")
-    closeDiv(chessBoard)
+    closeDiv(chessBoardContainer)
     openDiv(homePageUserConnected, "flex")
 })
 btSearchOpponent.on('click', async () => {
@@ -165,7 +165,7 @@ btSendCreateGame.on('click', async () => {
         const user = await getUser()
         const newGame = await actualUser.createNewGame(searchedOpponent.idUser, colorCreator)
         if(newGame.done){
-            //////console.log("new game : ", newGame)
+            console.log("données de jeu pour game : ", newGame)
             const game = new UserInGame(user.idUser, newGame.data.idGame, newGame.data.actualBoard, newGame.data.userColor, newGame.data.opponentUsername)
             user.actualGame = game
             //////console.log("ACTUAL GAME : ", user.actualGame)

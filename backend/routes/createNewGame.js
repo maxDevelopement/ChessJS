@@ -1,4 +1,4 @@
-const startNewGame = require('./playBoardGestion')
+const { startNewGame } = require('./playBoardGestion')
 
 const path = require('path')
 const fsPromises = require('fs').promises
@@ -36,7 +36,8 @@ module.exports = (app) => {
         })
         const idNewGame = newGame.dataValues.idGame
         if(idNewGame){
-            //console.log("data : ", user1, " , ", user2, " , ", idNewGame, " , ", user1Color, " , ", user2Color)
+            console.log("CREATION NEW GAME")
+            console.log("data : ", user1, " , ", user2, " , IDgAME", idNewGame)
             const createUserAsGame = await UserAsGame.create({
                 fkUser1: user1,
                 fkUser2: user2,
@@ -52,7 +53,7 @@ module.exports = (app) => {
             const opponentUsername = (await User.findOne({where: {idUser: user2}})).username
             const dataToReturn = {
                 idUser: user1,
-                idGame: createUserAsGame.idUserAsGame,
+                idGame: idNewGame,
                 actualBoard: jsonContent,
                 userColor: user1Color,
                 opponentUsername: opponentUsername
