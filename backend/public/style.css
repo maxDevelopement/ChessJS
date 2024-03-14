@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'vikingRunes';
+    src: url('./polices/celt.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'vikingSketch';
+    src: url('./polices/viking1.otf') format('opentype');
+}
+
 body, html{
     margin: 0;
     padding: 0;
@@ -38,12 +47,10 @@ body{
 #chessBoard{
     margin-top: 20px;
 }
+/*
 #homePageConnexionBt{
     display: none;
     justify-content: center;
-    gap: 1%;
-    height: 100%;
-    margin-top: 30%;
 }
 #homePageConnexionBt > input {
     border: 1px solid black;
@@ -84,13 +91,49 @@ body{
     display: flex;
     justify-content: center;
     gap: 5px;
-}
-#homePageUserConnected{
+}*/
+#homePageUserConnected, #homePageConnexionBt, #subscribeForm, #loginForm{
+    text-align: center;
+    margin: auto;
+    padding: 20px;
     display: none;    
-    background-color: bisque;
     flex-direction: column;
+    gap: 20px;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Noir avec 50% d'opacité */
+    color: #FFFFFF; /* Texte blanc */
+    height: 230px;
+    width: 230px;
+    border-radius: 300px;
+    margin-top: 20px;
+    border: 15px solid transparent;    
+    transition-duration: 1000ms;
+}/*
+#homePageUserConnected:hover{
+    border: 10px solid rgba(0, 0, 0, 1);
+    transition-duration: 1000ms;
+}*/
+.homePageBt{
+    background-color: transparent;
+    color: white;
+    font-family: 'vikingRunes';
+    font-size: 25px;
+    border: none;
+    border-bottom: 3px solid transparent;
+}
+.homePageBt:hover{
+    cursor: pointer;
+    border-bottom: 3px solid white;
+    transition-duration: 700ms;
+}
+#homePageImportantBt{
+    background-color: rgba(0, 0, 0, 1);
+    border: 1px solid white;
+    border-radius: 50px;
+    color: white;
+    font-family: 'vikingRunes';
+    font-size: 25px;
 }
 #createGameForm{
     display: none;
@@ -138,4 +181,12 @@ body{
     cursor: pointer;
     background-color: black;
     transition-duration: 500ms;
+}
+#mainTitle{
+    background-color: rgba(0, 0, 0, 0.5); /* Noir avec 50% d'opacité */
+    color: #FFFFFF; /* Texte blanc */
+    margin: 0;
+    padding: 30px;
+    text-align: center;
+    font-family: 'vikingRunes';
 }

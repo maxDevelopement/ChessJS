@@ -112,7 +112,7 @@ btOpenLoginForm.on('click', () => {
 
 inputCancelLogin.on('click', () => {
     closeDiv(loginForm)
-    openDiv(homePageConnexionBt, 'flex')
+    openDiv(homePageConnexionBt, 'flex', '700ms')
 })
 // CREATE GAME
 btOpenCreateGameForm.on('click', () => {
@@ -122,12 +122,12 @@ btOpenCreateGameForm.on('click', () => {
 })
 btCancelCreateGame.on('click', () => {
     closeDiv(createGameForm)
-    openDiv(homePageUserConnected, "flex")
+    openDiv(homePageUserConnected, "flex", '700ms')
 })
 btCancelChessBoard.on('click', () => {
     ////////console.log("click")
     closeDiv(chessBoardContainer)
-    openDiv(homePageUserConnected, "flex")
+    openDiv(homePageUserConnected, "flex", '700ms')
 })
 btSearchOpponent.on('click', async () => {
     const usernameToSearch = inputUsernameOpponent.val()
@@ -227,10 +227,18 @@ btCancelContinueGame.on('click', () => {
 // ------------------------------------------------
 // FUNCTIONS
 // ------------------------------------------------
-function openDiv(div, display){
-    div.css({
-        'display': display
-    })
+function openDiv(div, display, transitionDuration){
+    if(!transitionDuration){
+        div.css({
+            'display': display
+        })
+    }    
+    else if(transitionDuration){
+        div.css({
+            'display': display,
+            'transitionDuration': transitionDuration
+        })
+    }
 }
 function closeDiv(div){
     div.css({
@@ -244,7 +252,7 @@ function changeBorderColor(input, color){
 }
 // fonction qui ouvre le menu principale une fois le user connecté
 async function openConnexion(user){
-    openDiv(homePageUserConnected, "flex")
+    openDiv(homePageUserConnected, "flex", '00ms')
     closeDiv(loginForm)
     closeDiv(subscribeForm)
     const actualUser = new User(user.idUser, user.username)  

@@ -8,16 +8,15 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <h2>ChessJS</h2>
+    <h1 id="mainTitle">ChessJS</h1>
     <div id="homePageConnexionBt">
-      <input id="btOpenLoginForm" type="button" value="Login">
-      <input id="btOpenSubscribeForm" type="button" value="Subscribe">
+      <input id="btOpenLoginForm" class="homePageBt" type="button" value="Login">
+      <input id="btOpenSubscribeForm" class="homePageBt" type="button" value="Subscribe">
     </div>
     <div id="homePageUserConnected">
-      <h1>homePage</h1>
       <div id="userPopup"></div>
-      <input id="btOpenCreateGameForm" type="button" value="Create game">
-      <input id="btOpenContinueGameForm" type="button" value="Continue game">
+      <input id="btOpenCreateGameForm" class="homePageBt" type="button" value="Create game">
+      <input id="btOpenContinueGameForm" class="homePageBt" type="button" value="Continue game">
     </div>
     <div id="subscribeForm">
       <h3>Subscribe</h3>
@@ -25,8 +24,8 @@
       <input id="inputPassword1Subscribe" type="text" placeholder="password">
       <input id="inputPassword2Subscribe" type="text" placeholder="confirm password">
       <div id="btsSubscribe">
-        <input id="inputCancelSubscribe" type="button" value="cancel">
-        <input id="inputSendSubscribe" type="button" value="send">
+        <input id="inputCancelSubscribe" class="homePageBt" type="button" value="cancel">
+        <input id="inputSendSubscribe" class="homePageImportantBt" type="button" value="send">
       </div>
     </div>
     <div id="loginForm">
@@ -34,8 +33,9 @@
       <input id="inputUsernameLogin" type="text" placeholder="Username">
       <input id="inputPasswordLogin" type="text" placeholder="password">
       <div id="btsLogin">
-        <input id="inputCancelLogin" type="button" value="cancel">
-        <input id="inputSendLogin" type="button" value="send">
+        
+        <input id="inputSendLogin" class="homePageImportantBt" type="button" value="send">
+        <input id="inputCancelLogin" class="homePageBt" type="button" value="cancel">
       </div>
     </div>
     <div id="createGameForm">
