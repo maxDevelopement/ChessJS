@@ -51,7 +51,7 @@ let chessBoard
 $(window).on("load", function(event) {   
     const userConnected = JSON.parse(sessionStorage.getItem("user"))
     if(!userConnected){
-        //////console.log("user non connecté ")
+        ////////console.log("user non connecté ")
         openDiv(homePageConnexionBt, 'flex')
         return
     }
@@ -84,13 +84,13 @@ inputCancelSubscribe.on('click', () => {
 })
 // LOGIN 
 inputSendLogin.on('click', async() => {
-    //////console.log("click")
+    ////////console.log("click")
     const username = inputUsernameLogin.val()
     const password = inputPasswordLogin.val()
-    //////console.log(username, password)
+    ////////console.log(username, password)
     if(!username || !password){
         if(!username){
-            //////console.log("no")
+            ////////console.log("no")
             inputUsernameLogin.css({'borderColor': 'red'})
         }
         if(!password){
@@ -98,8 +98,9 @@ inputSendLogin.on('click', async() => {
         }
         return
     }
-    //////console.log("yes")
+    ////////console.log("yes")
     const response = await loginRequest(username, password)
+    console.log("response : ", response)
     if(response.auth){
         openConnexion(response.user)
     }
@@ -124,14 +125,14 @@ btCancelCreateGame.on('click', () => {
     openDiv(homePageUserConnected, "flex")
 })
 btCancelChessBoard.on('click', () => {
-    //////console.log("click")
+    ////////console.log("click")
     closeDiv(chessBoardContainer)
     openDiv(homePageUserConnected, "flex")
 })
 btSearchOpponent.on('click', async () => {
     const usernameToSearch = inputUsernameOpponent.val()
     const myUsername = (await getUser()).username
-    //////console.log("myUsername : ", myUsername)
+    ////////console.log("myUsername : ", myUsername)
     if(!usernameToSearch || usernameToSearch === myUsername){
         changeBorderColor(inputUsernameOpponent, "red")
         showUsernameOpponent.empty()
@@ -159,16 +160,16 @@ btSendCreateGame.on('click', async () => {
         return
     }
     const colorCreator = $('input[name=radioChooseYourColor]:checked').val()
-    ////////console.log("color creator : ", colorCreator, ", idOpponent : ", searchedOpponent.idUser)
+    //////////console.log("color creator : ", colorCreator, ", idOpponent : ", searchedOpponent.idUser)
     const actualUser = await getUser()
     if(actualUser){
         const user = await getUser()
         const newGame = await actualUser.createNewGame(searchedOpponent.idUser, colorCreator)
         if(newGame.done){
             console.log("données de jeu pour game : ", newGame)
-            const game = new UserInGame(user.idUser, newGame.data.idGame, newGame.data.actualBoard, newGame.data.userColor, newGame.data.opponentUsername)
+            const game = new UserInGame(user.idUser, newGame.data.idGame, newGame.data.actualBoard, newGame.data.userColor, newGame.data.opponentUsername, newGame.data.colorTurn)
             user.actualGame = game
-            //////console.log("ACTUAL GAME : ", user.actualGame)
+            ////////console.log("ACTUAL GAME : ", user.actualGame)
             sessionStorage.setItem("user", JSON.stringify(user))
             $(document).trigger('chessBoardInsertion')
         }
@@ -181,7 +182,7 @@ btOpenContinueGameForm.on('click', async () => {
     openDiv(continueGameForm, 'flex')
     closeDiv(homePageUserConnected)
     const user = await getUser()
-    //////console.log("all games of user : ", user)
+    ////////console.log("all games of user : ", user)
     const allGamesArray = user.allGames
     allGamesContainer.empty()
     allGamesArray.forEach((game) => {
@@ -191,18 +192,18 @@ btOpenContinueGameForm.on('click', async () => {
                 class: 'continueGameBt',
                 value: `${game.data.opponentUsername} : ${game.data.createdAt}`,
                 click: () => {
-                    console.log("clicked game : ", game)
-                    console.log("user at this point0 : ", user)
+                    //console.log("clicked game : ", game)
+                    //console.log("user at this point0 : ", user)
                     let myColor
                     if(game.data.fkUser1 === user.idUser){
                         myColor = game.data.user1Color
                     }else if(game.data.fkUser2 === user.idUser){
                         myColor = game.data.user2Color
                     }
-                    const openGame = new UserInGame(user.idUser, game.data.fkGame, game.array, myColor, game.data.opponentUsername)
+                    const openGame = new UserInGame(user.idUser, game.data.fkGame, game.array, myColor, game.data.opponentUsername, game.data.colorTurn)
                     user.actualGame = openGame
-                    console.log("actual selected game of the user : ", user.actualGame)
-                    console.log("user at this point1 : ", user)
+                    //console.log("actual selected game of the user : ", user.actualGame)
+                    //console.log("user at this point1 : ", user)
                     sessionStorage.setItem("user", JSON.stringify({
                         idUser: user.idUser,
                         username: user.username,
@@ -259,7 +260,7 @@ async function getUser(){
     return actualUser
 }
 function showThisGameToContinue(data){
-    //////console.log("data : ", data.opponentUsername)
+    ////////console.log("data : ", data.opponentUsername)
     
 }
 async function openNewGame(){
@@ -267,7 +268,7 @@ async function openNewGame(){
     closeDiv(createGameForm)
     closeDiv(continueGameForm)
     //const newGame = await startNewGame()
-    ////////console.log(newGame)
+    //////////console.log(newGame)
 }
 function openExistentGame(){
     openDiv(chessBoardContainer, 'block')

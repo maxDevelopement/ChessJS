@@ -1,6 +1,7 @@
 const WebSocket = require('ws')
 const UserAsGame = require('./models/usersAsGame')
-const { updatePlayboard } = require('./routes/playBoardGestion')
+const { updatePlayboard, backupPlayboard, saveColorTurn } = require('./routes/playBoardGestion')
+
 
 module.exports = function setupWsServer(app){
     const wss = new WebSocket.Server({ port: 7071 })
@@ -63,7 +64,9 @@ module.exports = function setupWsServer(app){
                     const theGame = games.find((game) => game.idGame === idGame)
                     console.log("idGame : ", idGame, ", the game : ", theGame)
                     const playersToRespond = theGame.players
-                    responseToPlayers(playersToRespond, dataToRespond)
+                    await saveColorTurn(idGame, colorTurn)
+                    await backupPlayboard(updatedPlayboard, idGame)
+                    responseToPlayers(playersToRespond, dataToRespond)  
                     break 
                 }
             }    

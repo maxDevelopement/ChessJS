@@ -1,3 +1,8 @@
+const path = require('path')
+const fs = require('fs')
+const Game = require('../models/games')
+const UserAsGame = require('../models/usersAsGame')
+
 const { King } = require('../classes/king')
 const { Queen } = require('../classes/queen')
 const { Rook } = require('../classes/rook')
@@ -210,5 +215,21 @@ function replacePieceData(piece, playboard){
     }
 }
 
+async function saveColorTurn(idGame, colorTurn){
+    const game = await UserAsGame.findOne({where: {fkGame: idGame}})
+    game.colorTurn = colorTurn
+    game.save()
+}
 
-module.exports = { startNewGame, updatePlayboard }
+async function backupPlayboard(playboard, idGame){
+    const fileUrl = (await Game.findOne({where: {idGame: idGame}})).dataValues.url 
+    const txtContent = JSON.stringify(playboard)
+    const url = path.join(__dirname, fileUrl)
+    
+    if(fs.existsSync(url)){
+        fs.writeFileSync(url, txtContent)
+    }
+    console.log("playboard backuped !")
+}
+
+module.exports = { startNewGame, updatePlayboard, backupPlayboard, saveColorTurn }

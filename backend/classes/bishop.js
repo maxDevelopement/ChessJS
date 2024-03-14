@@ -21,12 +21,15 @@ class Bishop extends ChessPiece{
             if(NWstillAvailable){
                 const doNWCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
                 if( doNWCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition - coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition - coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition + coord,
                             y: this.yPosition - coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            NWstillAvailable = false
+                        }
                     }else{
                         NWstillAvailable = false
                     }                    
@@ -38,12 +41,15 @@ class Bishop extends ChessPiece{
             if(NEstillAvailable){
                 const doNECaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
                 if(doNECaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition + coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition + coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition + coord,
                             y: this.yPosition + coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            NEstillAvailable = false
+                        }
                     }else{
                         NEstillAvailable = false
                     }
@@ -55,12 +61,15 @@ class Bishop extends ChessPiece{
             if(SEstillAvailable){
                 const doSEcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
                 if(doSEcaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition + coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition + coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition - coord,
                             y: this.yPosition + coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            SEstillAvailable = false
+                        }
                     }else{
                         SEstillAvailable = false
                     }                   
@@ -72,12 +81,15 @@ class Bishop extends ChessPiece{
             if(SWstillAvailable){
                 const doSWcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
                 if(doSWcaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition - coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition - coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition - coord,
                             y: this.yPosition - coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            SWstillAvailable = false
+                        }
                     }else{
                         SWstillAvailable = false
                     }                    

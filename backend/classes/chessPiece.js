@@ -41,13 +41,19 @@ class ChessPiece{
     // 2) object : l'objet "this" de la case source qui contient toutes les infos
     // 3) xDestination : coordonnée x de la case de destination
     // 4) yDestination : coordonée y de la case de destination 
-    isDestinationCaseColorTheSame(boardArray, object, xDestination, yDestination){
+    checkDestinationCaseColor(boardArray, object, xDestination, yDestination){
         const checkedCase = boardArray.find(caseItem => caseItem.xPosition === xDestination && caseItem.yPosition === yDestination);
         //console.log("isDestinationCaseColorTheSame : ", checkedCase, xDestination, yDestination)
+        const data = {
+            value: undefined,
+            color: checkedCase.color
+        }
         if(checkedCase.color === object.color){
-            return true
-        }     
-        return false   
+            data.value = true
+            return data
+        }  
+        data.value = false   
+        return data
     }
 }
 

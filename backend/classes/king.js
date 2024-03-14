@@ -43,10 +43,10 @@ class King extends ChessPiece{
         KingMoves.forEach((move) => {
             const existCase = this.doCaseExist(move.x, move.y)
             if(existCase){
-                const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, move.x, move.y)
+                const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, move.x, move.y)
                 //console.log("comparaison couleur (true ou false attendue : ", colorIsSame)
                 //console.log("color source : ", this.color)
-                if(existCase && !colorIsSame){
+                if(existCase && colorIsSame.value === false){
                     //console.log("this.possiblesMoves : ", this.possiblesMoves)
                     this.possiblesMoves.push({
                         x: move.x,

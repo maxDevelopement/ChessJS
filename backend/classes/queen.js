@@ -21,16 +21,20 @@ class Queen extends ChessPiece{
         let southLineStillAvailable = true
         let westLineStillAvailable = true
         for(let coord = 1; coord < 8; coord++){
-            // NW 
+            // deplacements style "bishop"
+            // NW
             if(NWstillAvailable){
                 const doNWCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition - coord)
                 if( doNWCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition - coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition - coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition + coord,
                             y: this.yPosition - coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            NWstillAvailable = false
+                        }
                     }else{
                         NWstillAvailable = false
                     }                    
@@ -42,12 +46,15 @@ class Queen extends ChessPiece{
             if(NEstillAvailable){
                 const doNECaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition + coord)
                 if(doNECaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition + coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition + coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition + coord,
                             y: this.yPosition + coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            NEstillAvailable = false
+                        }
                     }else{
                         NEstillAvailable = false
                     }
@@ -59,12 +66,15 @@ class Queen extends ChessPiece{
             if(SEstillAvailable){
                 const doSEcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition + coord)
                 if(doSEcaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition + coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition + coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition - coord,
                             y: this.yPosition + coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            SEstillAvailable = false
+                        }
                     }else{
                         SEstillAvailable = false
                     }                   
@@ -76,12 +86,15 @@ class Queen extends ChessPiece{
             if(SWstillAvailable){
                 const doSWcaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition - coord)
                 if(doSWcaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition - coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition - coord)
+                    if(colorIsSame.value === false){
                         this.possiblesMoves.push({
                             x: this.xPosition - coord,
                             y: this.yPosition - coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            SWstillAvailable = false
+                        }
                     }else{
                         SWstillAvailable = false
                     }                    
@@ -89,31 +102,40 @@ class Queen extends ChessPiece{
                     SWstillAvailable = false
                 }
             }
+            // déplacements style "rook"
             if(northLineStillAvailable){
-                const doNorthCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition)
+                const doNorthCaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition)
+                //console.log("north case : ", doNorthCaseExist)
                 if(doNorthCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition - coord,
                             y: this.yPosition
                         })
+                        if(colorIsSame.color !== 'none'){
+                            northLineStillAvailable = false
+                        }
                     }else{
                         northLineStillAvailable = false
                     }
                 }else{
-                    northLineStillAvailable = false                    
+                    northLineStillAvailable = false    
                 }
             }
             if(eastLineStillAvailable){
                 const doEastCaseExist = this.doCaseExist(this.xPosition, this.yPosition + coord)
                 if(doEastCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition, this.yPosition + coord)
-                    if(!colorIsSame){
+                    //console.log("east case : ", doEastCaseExist)
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition, this.yPosition + coord)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition,
                             y: this.yPosition + coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            eastLineStillAvailable = false
+                        }
                     }else{
                         eastLineStillAvailable = false
                     }
@@ -122,14 +144,18 @@ class Queen extends ChessPiece{
                 }
             }
             if(southLineStillAvailable){
-                const doSouthCaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition)
+                const doSouthCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition)
+                //console.log("south case : ", doSouthCaseExist)
                 if(doSouthCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition + coord,
                             y: this.yPosition
                         })
+                        if(colorIsSame.color !== 'none'){
+                            southLineStillAvailable = false
+                        }
                     }else{
                         southLineStillAvailable = false
                     }                    
@@ -139,13 +165,17 @@ class Queen extends ChessPiece{
             }
             if(westLineStillAvailable){
                 const doWestCaseExist = this.doCaseExist(this.xPosition, this.yPosition - coord)
-                if(doWestCaseExist){                    
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition, this.yPosition - coord)
-                    if(!colorIsSame){
+                if(doWestCaseExist){    
+                    //console.log("west case : ", doWestCaseExist)                
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition, this.yPosition - coord)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition,
                             y: this.yPosition - coord
                         })
+                        if(colorIsSame.color !== 'none'){
+                            westLineStillAvailable = false
+                        }
                     }else{
                         westLineStillAvailable = false
                     }      

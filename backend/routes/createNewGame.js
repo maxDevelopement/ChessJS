@@ -56,7 +56,8 @@ module.exports = (app) => {
                 idGame: idNewGame,
                 actualBoard: jsonContent,
                 userColor: user1Color,
-                opponentUsername: opponentUsername
+                opponentUsername: opponentUsername,
+                colorTurn: createUserAsGame.colorTurn
             }
             //console.log("game created : ", dataToReturn)
             return res.json({done: true, data: dataToReturn})

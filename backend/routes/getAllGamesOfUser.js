@@ -27,11 +27,12 @@ module.exports = (app) => {
                 data: game.dataValues,
                 array: jsonContent
             }
-            const getOpponentUsername = await User.findOne({where: { idUser : gameData.data.fkUser2}})
-            if(!getOpponentUsername){
+            //console.log("gameData : ", gameData.data)
+            const userData = await User.findOne({where: { idUser : gameData.data.fkUser2}})
+            if(!userData){
                 return
             }
-            gameData.data.opponentUsername = getOpponentUsername.dataValues.username
+            gameData.data.opponentUsername = userData.dataValues.username
             // rajouter le code qui va chercher les data JSON 
             return gameData
         }))

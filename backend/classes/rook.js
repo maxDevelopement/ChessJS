@@ -15,13 +15,15 @@ class Rook extends ChessPiece{
                 const doNorthCaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition)
                 //console.log("north case : ", doNorthCaseExist)
                 if(doNorthCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition - coord, this.yPosition)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition - coord,
                             y: this.yPosition
                         })
-                        northLineStillAvailable = false
+                        if(colorIsSame.color !== 'none'){
+                            northLineStillAvailable = false
+                        }
                     }else{
                         northLineStillAvailable = false
                     }
@@ -33,13 +35,15 @@ class Rook extends ChessPiece{
                 const doEastCaseExist = this.doCaseExist(this.xPosition, this.yPosition + coord)
                 if(doEastCaseExist){
                     //console.log("east case : ", doEastCaseExist)
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition, this.yPosition + coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition, this.yPosition + coord)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition,
                             y: this.yPosition + coord
                         })
-                        eastLineStillAvailable = false
+                        if(colorIsSame.color !== 'none'){
+                            eastLineStillAvailable = false
+                        }
                     }else{
                         eastLineStillAvailable = false
                     }
@@ -51,13 +55,15 @@ class Rook extends ChessPiece{
                 const doSouthCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition)
                 //console.log("south case : ", doSouthCaseExist)
                 if(doSouthCaseExist){
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition + coord, this.yPosition)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition + coord,
                             y: this.yPosition
                         })
-                        southLineStillAvailable = false
+                        if(colorIsSame.color !== 'none'){
+                            southLineStillAvailable = false
+                        }
                     }else{
                         southLineStillAvailable = false
                     }                    
@@ -69,13 +75,15 @@ class Rook extends ChessPiece{
                 const doWestCaseExist = this.doCaseExist(this.xPosition, this.yPosition - coord)
                 if(doWestCaseExist){    
                     //console.log("west case : ", doWestCaseExist)                
-                    const colorIsSame = this.isDestinationCaseColorTheSame(actualBoard, this, this.xPosition, this.yPosition - coord)
-                    if(!colorIsSame){
+                    const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition, this.yPosition - coord)
+                    if(!colorIsSame.value){
                         this.possiblesMoves.push({
                             x: this.xPosition,
                             y: this.yPosition - coord
                         })
-                        westLineStillAvailable = false
+                        if(colorIsSame.color !== 'none'){
+                            westLineStillAvailable = false
+                        }
                     }else{
                         westLineStillAvailable = false
                     }      

@@ -43,7 +43,8 @@ class Knight extends ChessPiece{
         KnightMoves.forEach((move) => {
             const existCase = this.doCaseExist(move.x, move.y)
             if(existCase){
-                if(!this.isDestinationCaseColorTheSame(actualBoard, this, move.x, move.y)){
+                const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, move.x, move.y)
+                if(colorIsSame.value){
                     //console.log("this.possiblesMoves : ", this.possiblesMoves)
                     this.possiblesMoves.push({
                         x: move.x,
