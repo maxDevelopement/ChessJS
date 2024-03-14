@@ -190,6 +190,7 @@ btOpenContinueGameForm.on('click', async () => {
             const newDiv = $('<input>', {
                 type: 'submit',
                 class: 'continueGameBt',
+                class: 'homePageBt',
                 value: `${game.data.opponentUsername} : ${game.data.createdAt}`,
                 click: () => {
                     //console.log("clicked game : ", game)

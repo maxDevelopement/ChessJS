@@ -1,7 +1,6 @@
 export default async function searchOpponentRequest(username){
-    ("entreée searchOpponent Request : ", username)
     try{
-        const request = await fetch(`http://10.229.32.215:3000/api/searchOpponent?usernameToSearch=${username}`, {
+        const request = await fetch(`http://192.168.1.106:3000/api/searchOpponent?usernameToSearch=${username}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

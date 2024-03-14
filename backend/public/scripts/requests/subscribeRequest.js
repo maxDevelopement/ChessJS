@@ -5,7 +5,7 @@ export default async function subscribeRequest(username, password){
             username: username,
             password: password
         }
-        const request = await fetch(`http://10.229.32.215:3000/api/createUser`, {
+        const request = await fetch(`http://192.168.1.106:3000/api/createUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
