@@ -96,7 +96,6 @@ function startNewGame(){
         blackPawn8
     )
 
-    whiteKing.calculMove(actualBoard);
     whiteQueen.calculMove(actualBoard);
     whiteBishop.calculMove(actualBoard);
     whiteSecondBishop.calculMove(actualBoard);
@@ -112,7 +111,6 @@ function startNewGame(){
     whitePawn5.calculMove(actualBoard)
     whitePawn7.calculMove(actualBoard)
 
-    blackKing.calculMove(actualBoard);
     blackQueen.calculMove(actualBoard);
     blackBishop.calculMove(actualBoard);
     blackSecondBishop.calculMove(actualBoard);
@@ -132,8 +130,7 @@ function startNewGame(){
         whiteRook, 
         whiteBishop, 
         whiteKnight,        
-        whiteQueen,
-        whiteKing,   
+        whiteQueen,  
         whiteSecondBishop, 
         whiteSecondKnight,
         whiteSecondRook,
@@ -148,8 +145,7 @@ function startNewGame(){
         blackRook, 
         blackBishop, 
         blackKnight,
-        blackQueen,
-        blackKing,   
+        blackQueen, 
         blackSecondBishop, 
         blackSecondKnight,
         blackSecondRook,
@@ -162,6 +158,9 @@ function startNewGame(){
         blackPawn7,
         blackPawn8
     )
+    whiteKing.calculMove(finalBoardToSend)
+    blackKing.calculMove(finalBoardToSend)
+    finalBoardToSend.push(whiteKing, blackKing)
     return finalBoardToSend
 }
 

@@ -1,6 +1,6 @@
 export default async function startNewGameRequest(idGame){
     try{
-        const request = await fetch(`http://192.168.1.106:3000/api/startNewGame?idGame=${idGame}`, {
+        const request = await fetch(`http://10.229.32.215:3000/api/startNewGame?idGame=${idGame}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

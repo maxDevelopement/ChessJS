@@ -138,12 +138,22 @@ body{
     border: 3px solid green;
     color: green;
     border-radius: 50px;
+    width: 30%;
+    padding: 15px;
+    font-family: 'vikingRunes';
+    font-size: 25px;
+    margin: auto;
+    margin-top: 15px;
 }
 #continueGameForm{
     display: none;
     margin: auto;
     justify-content: center;
     width: 70%;
+    height: 90%;
+    overflow-y: scroll;
+    scrollbar-color: white black;
+    scrollbar-width: 15px;
     background-color: rgba(0, 0, 0, 0.5); /* Noir avec 50% d'opacité */
     color: #FFFFFF; /* Texte blanc */
 }

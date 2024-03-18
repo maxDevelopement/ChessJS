@@ -4,7 +4,7 @@ export default async function loginRequest(username, password){
             username: username,
             password: password
         }
-        const request = await fetch(`http://192.168.1.106:3000/api/loginUser`, {
+        const request = await fetch(`http://10.229.32.215:3000/api/loginUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
