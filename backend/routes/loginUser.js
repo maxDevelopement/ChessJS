@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt')
 const { findUserByUsername } = require('./scripts/functions')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 // ce endpoint attend 2 parametres : pseudo & password
 module.exports = (app) => {
@@ -26,8 +28,9 @@ module.exports = (app) => {
             // si passwords correspondent => user connecté !
             const message = "user identifié avec succès"
             const user = { idUser: userData.idUser, username: userData.username }
-            //console.log("user identifié : ", user)
-            return res.status(200).json({msg: message, auth: true, user: user})
+            console.log("user : ", user, "token : ", process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+            return res.status(200).json({accessToken: accessToken, auth: true, user: user})
         }catch(error){
             console.error(error)
         }

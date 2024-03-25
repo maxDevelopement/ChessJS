@@ -210,7 +210,7 @@ export default function socketConnect(){
     return new Promise((resolve, reject) => {
         if (!ws || ws.readyState === WebSocket.CLOSED) {
             ////console.log("1erconnexion")
-            ws =  new WebSocket(`ws://10.229.32.215:7071`)
+            ws =  new WebSocket(`ws://657371.web24.swisscenter.com:7071`)
             ws.onopen = () => {
                 ////console.log("connected to socket !")
                 isOpponentConnected.css({'display': 'block'})

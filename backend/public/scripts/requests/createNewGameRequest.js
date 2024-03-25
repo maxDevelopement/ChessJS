@@ -7,9 +7,10 @@ export default async function createNewGameRequest(user1,user2, colorCreator){
             user2: user2,
             colorCreator: colorCreator
         }
-        const request = await fetch(`http://10.229.32.215:3000/api/createNewGame`, {
+        const request = await fetch(`http://657371.web24.swisscenter.com/api/createNewGame`, {
             method: 'POST',
             headers: {
+                'authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)

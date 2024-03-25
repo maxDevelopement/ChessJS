@@ -1,8 +1,10 @@
+const token = sessionStorage.getItem("token")
 export default async function searchOpponentRequest(username){
     try{
-        const request = await fetch(`http://10.229.32.215:3000/api/searchOpponent?usernameToSearch=${username}`, {
+        const request = await fetch(`http://657371.web24.swisscenter.com/api/searchOpponent?usernameToSearch=${username}`, {
             method: 'GET',
             headers: {
+                'authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         })

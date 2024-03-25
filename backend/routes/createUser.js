@@ -1,5 +1,7 @@
 const User = require('../models/users')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = (app) => {
     app.post('/api/createUser', function (req, res){
@@ -22,10 +24,9 @@ module.exports = (app) => {
                     //console.log("erreur : ", error)
                     return res.json({insert: false}) // si un compte est deja lié à l'email que le user a mis
                 } 
-                //console.log("userData : ", userData)
-                const message = "user créé avec succès"
                 const userDataToSend = { idUser: userData.idUser, username: userData.username }
-                res.json({msg: message, user: userDataToSend, auth: true})                            
+                const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                return res.json({accessToken: accessToken, user: userDataToSend, auth: true})  
             })             
         }
     })

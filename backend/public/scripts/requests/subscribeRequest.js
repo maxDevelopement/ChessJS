@@ -5,7 +5,7 @@ export default async function subscribeRequest(username, password){
             username: username,
             password: password
         }
-        const request = await fetch(`http://10.229.32.215:3000/api/createUser`, {
+        const request = await fetch(`http://657371.web24.swisscenter.com/api/createUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -14,6 +14,8 @@ export default async function subscribeRequest(username, password){
         })
         if(request.ok){
             let result = await request.json() 
+            const token = result.accessToken
+            sessionStorage.setItem('token', token)
             return result
         }else{
             return null

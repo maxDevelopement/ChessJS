@@ -276,8 +276,8 @@ async function openNewGame(){
     openDiv(chessBoardContainer, 'block')
     closeDiv(createGameForm)
     closeDiv(continueGameForm)
-    //const newGame = await startNewGame()
-    //////////console.log(newGame)
+    const newGame = await startNewGame()
+    console.log(newGame)
 }
 function openExistentGame(){
     openDiv(chessBoardContainer, 'block')
