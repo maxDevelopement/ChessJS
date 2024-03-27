@@ -15,7 +15,6 @@ app.get(('/', (req, res) => {
 app.listen(port, () => console.log(`server run on port ${port}`))
 initDb()
 
-app.use(cors())
 app.use(bodyParser.json())
 
 require('./routes/createUser')(app)

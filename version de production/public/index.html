@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ChessJS</title>
+  <link rel="stylesheet" href="style.css"> 
+  <link rel="icon" type="image/x-icon" href="img/divers/favicon.ico">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1 id="mainTitle">ChessJS</h1>
+    <div id="homePageConnexionBt">
+      <input id="btOpenLoginForm" class="homePageBt" type="button" value="Login">
+      <input id="btOpenSubscribeForm" class="homePageBt" type="button" value="Subscribe">
+    </div>
+    <div id="homePageUserConnected">
+      <div id="userPopup"></div>
+      <input id="btOpenCreateGameForm" class="homePageBt" type="button" value="Create game">
+      <input id="btOpenContinueGameForm" class="homePageBt" type="button" value="Continue game">
+    </div>
+    <div id="subscribeForm">
+      <h1>Subscribe</h1>
+      <input id="inputUsernameSubscribe" type="text" placeholder="Username">
+      <input id="inputPassword1Subscribe" type="text" placeholder="password">
+      <input id="inputPassword2Subscribe" type="text" placeholder="confirm password">
+      <div id="btsSubscribe">
+        <input id="inputCancelSubscribe" class="homePageBt" type="button" value="cancel">
+        <input id="inputSendSubscribe" class="homePageBt" type="button" value="send">
+      </div>
+    </div>
+    <div id="loginForm">
+      <h1>Login</h1>
+      <input id="inputUsernameLogin" type="text" placeholder="Username">
+      <input id="inputPasswordLogin" type="text" placeholder="password">
+      <div id="btsLogin">   
+        <input id="inputSendLogin" class="homePageBt" type="button" value="send">
+        <input id="inputCancelLogin" class="homePageBt" type="button" value="cancel">
+      </div>
+    </div>
+    <div id="createGameForm">
+      <h1>Create a new game</h1>
+      <div id="divSearchOpponent">
+        <input id="inputUsernameOpponent" type="text" placeholder="Search your opponent">
+        <input id="btSearchOpponent" class="homePageBt" type="submit" value="Search">
+        <div id="showUsernameOpponent"></div>
+      </div>
+      <div id="divChooseYourColor">
+        <input id="whiteColorChoice" type="radio" name="radioChooseYourColor" value="white" checked="checked">
+        <label for="whiteColor">White</label>
+        <input id="blackColorChoice" type="radio" name="radioChooseYourColor" value="black">
+        <label for="blackColor">Black</label>
+      </div>
+      <div id="btsCreateGame">
+        <input id="btSendCreateGame" class="homePageBt" type="submit" value="Create game">
+        <input id="btCancelCreateGame" class="homePageBt" type="button" value="cancel">
+      </div>
+    </div>
+    <div id="continueGameForm">
+      <input id="btCancelContinueGame" type="button" value="Back">
+      <div id="allGamesContainer"></div>
+    </div>
+    <div id="chessBoardContainer">
+      <div id="isOpponentConnected"></div>
+      <input id="btCancelChessBoard" type="button" value="Back to menu">
+    </div>
+    <script src="./scripts/formsGestion.js" type="module"></script>
+    <script src="./scripts/gameGestion.js" type="module"></script>
+</body>
+</html>
