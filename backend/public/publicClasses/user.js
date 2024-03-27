@@ -15,7 +15,4 @@ export default class User{
         this.actualGame = newGame
         return newGame
     }
-    async startNewGame(){
-        
-    }
 }
