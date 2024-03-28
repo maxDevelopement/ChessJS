@@ -1,5 +1,4 @@
 const { ChessPiece } = require('./chessPiece.js')
-const { checkCaseExist, doCaseExist } = require('../routes/displayBoard')
 
 class Bishop extends ChessPiece{
     constructor(xPosition, yPosition, color, grade = "bishop", _img, possiblesMoves){

@@ -5,9 +5,6 @@ class Empty extends ChessPiece{
         this.grade = grade;
         this.color = "none"
     }
-    calculMove(){
-        return null
-    }
 }
 
 module.exports = { Empty }
