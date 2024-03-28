@@ -60,7 +60,7 @@ class King extends ChessPiece{
                 } 
             }                
         })
-        this.dropMatesMovements(actualBoard)
+        //this.dropMatesMovements(actualBoard)
     }   
   /*  dropMatesMovements(actualBoard) {
         const opponentsPieces = actualBoard.filter(piece => piece.color !== this.color && piece.color !== "none" && piece.possiblesMoves.length > 0);

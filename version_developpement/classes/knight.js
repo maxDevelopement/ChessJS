@@ -44,7 +44,7 @@ class Knight extends ChessPiece{
             const existCase = this.doCaseExist(move.x, move.y)
             if(existCase){
                 const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, move.x, move.y)
-                if(colorIsSame.value){
+                if(!colorIsSame.value || colorIsSame.color === 'none'){
                     this.possiblesMoves.push({
                         x: move.x,
                         y: move.y
