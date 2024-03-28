@@ -27,7 +27,6 @@ module.exports = (app) => {
                 data: game.dataValues,
                 array: jsonContent
             }
-            //console.log("gameData : ", gameData.data)
             const userData = await User.findOne({where: { idUser : gameData.data.fkUser2}})
             if(!userData){
                 return
@@ -36,7 +35,6 @@ module.exports = (app) => {
             // rajouter le code qui va chercher les data JSON 
             return gameData
         }))
-        //console.log("data to return : ", allGames)
         return res.json({allGames: allGames})
     })
 }

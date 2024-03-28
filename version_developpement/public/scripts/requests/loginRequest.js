@@ -17,7 +17,6 @@ export default async function loginRequest(username, password){
             sessionStorage.setItem('token', token)
             return result
         }else{
-            ("login a failé")
             return null
         }
     }catch(error){

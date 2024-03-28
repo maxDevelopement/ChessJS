@@ -48,15 +48,11 @@ class King extends ChessPiece{
                 y: this.yPosition - 1 
             }
         ]
-        //console.log("actualboard : ", actualBoard)
         KingMoves.forEach((move) => {
             const existCase = this.doCaseExist(move.x, move.y)
             if(existCase){
                 const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, move.x, move.y)
-                //console.log("comparaison couleur (true ou false attendue : ", colorIsSame)
-                //console.log("color source : ", this.color)
                 if(existCase && colorIsSame.value === false){
-                    //console.log("this.possiblesMoves : ", this.possiblesMoves)
                     this.possiblesMoves.push({
                         x: move.x,
                         y: move.y
@@ -66,9 +62,8 @@ class King extends ChessPiece{
         })
         this.dropMatesMovements(actualBoard)
     }   
-    dropMatesMovements(actualBoard) {
+  /*  dropMatesMovements(actualBoard) {
         const opponentsPieces = actualBoard.filter(piece => piece.color !== this.color && piece.color !== "none" && piece.possiblesMoves.length > 0);
-        // Pour chaque mouvement possible, vérifier si une pièce adverse pourrait y atteindre
         console.log("all opponents : ", opponentsPieces)
         for(const opponent of opponentsPieces) {
             // Ici, on simulerait les mouvements possibles de la pièce adverse
@@ -76,10 +71,10 @@ class King extends ChessPiece{
             /*if(opponentMoves && this.possiblesMoves.length > 0){
                 const moveToDrop = this.possiblesMoves.filter((myPossiblesMoves) => myPossiblesMoves.xPosition === opponentMoves.x && myPossiblesMoves.yPosition === opponentMoves.y)
                 this.possiblesMoves -= moveToDrop
-            }*/
+            }
         }
 
-   /*     // Vérifier l'échec: Si une des pièces adverses peut atteindre la position actuelle du roi
+        // Vérifier l'échec: Si une des pièces adverses peut atteindre la position actuelle du roi
         this.mate = opponentsPieces.some(opponent => opponent.calculMove(actualBoard));
 
         // Vérifier l'échec et mat: Si le roi est en échec et n'a plus de mouvements légaux
@@ -89,8 +84,8 @@ class King extends ChessPiece{
         } else {
             this.chessMate = false;
             console.log("echec (mate) ? : ", this.mate)
-        }*/
-    }
+        }
+    }*/
 }
 function getOpponentMoves(opponent, actualBoard){
     console.log("(getOpponentMoves) opponent : ", opponent)

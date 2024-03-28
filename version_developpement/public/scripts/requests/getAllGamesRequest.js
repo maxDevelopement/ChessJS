@@ -11,7 +11,6 @@ export default async function getAllGamesOfUser(idUser){
         })
         if(request.ok){
             let result = await request.json() 
-            console.log("all games : ", result)
             return result
         }else{
             return null

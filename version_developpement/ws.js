@@ -14,7 +14,6 @@ module.exports = function setupWsServer(app){
         //ws.send({type: "connexion established"})
         ws.on('message', async (data) => {            
             const clientData = JSON.parse(data)   
-            ////console.log("clientdata : ", clientData)
             const idGame = clientData.game  
             switch(clientData.type){
                 case 'connexion': { 
@@ -47,7 +46,6 @@ module.exports = function setupWsServer(app){
                     break
                 }
                 case 'pieceMoving': {
-                    //console.log('pieceMoving')
                     const playboard = clientData.playboard
                     const updatedPlayboard = updatePlayboard(playboard)
                     let colorTurn = clientData.colorTurn
@@ -62,7 +60,6 @@ module.exports = function setupWsServer(app){
                         colorTurn: colorTurn
                     }
                     const theGame = games.find((game) => game.idGame === idGame)
-                    //console.log("idGame : ", idGame, ", the game : ", theGame)
                     const playersToRespond = theGame.players
                     await saveColorTurn(idGame, colorTurn)
                     await backupPlayboard(updatedPlayboard, idGame)
@@ -80,7 +77,6 @@ module.exports = function setupWsServer(app){
                 }
                 responseToPlayers(game.players, {type: 'disconnexion', playerConnected: 1})
             })
-            //console.log("locatedGame : ", locateGame)
             clients.delete(ws)
         }       
     })

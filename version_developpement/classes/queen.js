@@ -105,7 +105,6 @@ class Queen extends ChessPiece{
             // déplacements style "rook"
             if(northLineStillAvailable){
                 const doNorthCaseExist = this.doCaseExist(this.xPosition - coord, this.yPosition)
-                ////console.log("north case : ", doNorthCaseExist)
                 if(doNorthCaseExist){
                     const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition - coord, this.yPosition)
                     if(!colorIsSame.value){
@@ -126,7 +125,6 @@ class Queen extends ChessPiece{
             if(eastLineStillAvailable){
                 const doEastCaseExist = this.doCaseExist(this.xPosition, this.yPosition + coord)
                 if(doEastCaseExist){
-                    ////console.log("east case : ", doEastCaseExist)
                     const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition, this.yPosition + coord)
                     if(!colorIsSame.value){
                         this.possiblesMoves.push({
@@ -145,7 +143,6 @@ class Queen extends ChessPiece{
             }
             if(southLineStillAvailable){
                 const doSouthCaseExist = this.doCaseExist(this.xPosition + coord, this.yPosition)
-                ////console.log("south case : ", doSouthCaseExist)
                 if(doSouthCaseExist){
                     const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition + coord, this.yPosition)
                     if(!colorIsSame.value){
@@ -166,7 +163,6 @@ class Queen extends ChessPiece{
             if(westLineStillAvailable){
                 const doWestCaseExist = this.doCaseExist(this.xPosition, this.yPosition - coord)
                 if(doWestCaseExist){    
-                    ////console.log("west case : ", doWestCaseExist)                
                     const colorIsSame = this.checkDestinationCaseColor(actualBoard, this, this.xPosition, this.yPosition - coord)
                     if(!colorIsSame.value){
                         this.possiblesMoves.push({

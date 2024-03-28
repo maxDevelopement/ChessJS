@@ -167,7 +167,6 @@ function startNewGame(){
 
 function updatePlayboard(oldPlayboard){
     let updatedPlayboard = []
-    //console.log("old playboard : ", oldPlayboard[0], ", ", oldPlayboard[1]) // etc
     oldPlayboard.forEach((piece) => {
         const updatedPiece = replacePieceData(piece, oldPlayboard)
         updatedPlayboard.push(updatedPiece)
@@ -228,7 +227,6 @@ async function backupPlayboard(playboard, idGame){
     if(fs.existsSync(url)){
         fs.writeFileSync(url, txtContent)
     }
-    console.log("playboard backuped !")
 }
 
 module.exports = { startNewGame, updatePlayboard, backupPlayboard, saveColorTurn }

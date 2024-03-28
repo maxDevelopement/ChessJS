@@ -6,7 +6,6 @@ class Pawn extends ChessPiece{
         this.grade = grade
     }
     calculMove(actualBoard){
-        //console.log("xPosition : ", this.xPosition)
         let pawnMove
         if(this.color === 'white'){
             pawnMove = [
@@ -46,8 +45,6 @@ class Pawn extends ChessPiece{
                     y: this.yPosition 
                 }
             ]
-        }else{
-            ////console.log("color non-définie : ", this.color)
         }
         const leftCaseExist = this.doCaseExist(pawnMove[0].x, pawnMove[0].y)
         if(leftCaseExist){
@@ -68,9 +65,7 @@ class Pawn extends ChessPiece{
                     y: pawnMove[1].y
                 })
                 if(this.color === 'white' && this.xPosition === 6){
-                    //console.log("pawn case + 2 trouvée ")
                     const secondCaseToCheck = actualBoard.find((oneCase) => oneCase.xPosition === pawnMove[3].x && oneCase.yPosition === pawnMove[3].y)
-                    //console.log("case : ", secondCaseToCheck)
                     if(secondCaseToCheck && secondCaseToCheck.color === "none"){
                         this.possiblesMoves.push({ // insertion deuxième case (uniquement premier coup du pion)
                             x: pawnMove[3].x,
@@ -79,9 +74,7 @@ class Pawn extends ChessPiece{
                     }
                 }
                 else if(this.color === 'black' && this.xPosition === 1){
-                    //console.log("pawn case + 2 trouvée ")
                     const secondCaseToCheck = actualBoard.find((oneCase) => oneCase.xPosition === pawnMove[3].x && oneCase.yPosition === pawnMove[3].y)
-                    //console.log("case : ", secondCaseToCheck)
                     if(secondCaseToCheck && secondCaseToCheck.color === "none"){
                         this.possiblesMoves.push({ // insertion deuxième case (uniquement premier coup du pion)
                             x: pawnMove[3].x,

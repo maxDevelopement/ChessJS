@@ -5,7 +5,6 @@ async function findUserById(id){
     if(!user){
         return false
     }
-    console.log("user : ", user)
     return user.dataValues
 }
 async function findUserByUsername(username){
@@ -13,7 +12,6 @@ async function findUserByUsername(username){
     if(!user){
         return false
     }
-    console.log("user : ", user.dataValues)
     return user.dataValues
 }
 

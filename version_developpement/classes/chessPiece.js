@@ -43,7 +43,6 @@ class ChessPiece{
     // 4) yDestination : coordonée y de la case de destination 
     checkDestinationCaseColor(boardArray, object, xDestination, yDestination){
         const checkedCase = boardArray.find(caseItem => caseItem.xPosition === xDestination && caseItem.yPosition === yDestination);
-        //////console.log("isDestinationCaseColorTheSame : ", checkedCase, xDestination, yDestination)
         const data = {
             value: undefined,
             color: checkedCase.color
